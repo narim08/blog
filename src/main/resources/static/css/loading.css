@@ -1,0 +1,100 @@
+/* 전체 배경 */
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background-image: url('/images/loading-background.jpg'); /* 배경 이미지 경로 */
+  background-size: cover;
+  background-position: center;
+  font-family: 'Press Start 2P', cursive;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.loading-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.logo {
+    animation: bounce 2s infinite;
+    text-align: center;
+    margin: 15px;
+}
+
+.logo h1 {
+    color: #4285f4;
+    font-size: 75px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
+}
+
+.progress-container {
+    width: 310px;
+    height: 30px;
+    background-color: #e1f0fe;
+    border-radius: 20px;
+    padding: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid #4285f4;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: #4285f4;
+    border-radius: 16px;
+    transition: width 0.1s;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.5), transparent);
+    animation: shimmer 2s infinite;
+}
+
+.loading-text {
+    font-family: "Orbit", sans-serif;
+    font-size: 20px;
+    color: #4285f4;
+    letter-spacing: 1px;
+}
+
+@keyframes shimmer {
+    0% {
+        left: -50%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+.hidden {
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+

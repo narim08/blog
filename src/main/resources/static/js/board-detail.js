@@ -22,14 +22,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
             boardDetail.innerHTML = `
                 <h2>${board.title}</h2>
-                <p>작성자: ${board.userName}</p>
-                <p>작성일: ${new Date(board.createTime).toLocaleString()}</p>
-                <p>조회수: ${board.viewCount}</p>
-                <div class="board-content">${board.content}</div>
-                <div id="like-section">
-                    <button id="like-btn">🤍 좋아요</button>
-                    <span id="like-count">0</span>
+                <div style="display: flex; justify-content: space-between;">
+                    <span class="from-content">from. ${board.userName}</span>
+                    <span class="date-content">작성일: ${new Date(board.createTime).toLocaleString()}</span>
                 </div>
+                <div class="board-content">${board.content.replace(/\n/g, '<br>')}</div>
+
+                <div class="board-interaction">
+                    <div class="board-interaction-left">
+                        <button id="like-btn">🤍 좋아요</button>
+                        <span id="like-count">0</span>
+                        <button id="share-btn">🔗 공유</button>
+                    </div>
+                    <div class="board-view-count">👁 조회수: ${board.viewCount}</div>
+                </div>
+
                 <div id="comments-section">
                     <h3>댓글</h3>
                     <div id="comments-list"></div>
@@ -39,6 +46,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     </form>
                 </div>
             `;
+
+            const shareButton = document.getElementById('share-btn');
+            shareButton.addEventListener('click', () => {
+                const currentUrl = window.location.href;
+                navigator.clipboard.writeText(currentUrl);
+                alert('📋 링크가 복사되었습니다!');
+            });
 
             //게시글이 생성된 후, 좋아요 기능 추가됨
             const likeButton = document.getElementById('like-btn');

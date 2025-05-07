@@ -3,8 +3,17 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    background-color: #fffaf0;
-    color: #555;
+    /*background-color: #fffaf0;
+    color: #555;*/
+
+    background-color: #e8f5e9;
+    color: #5a3e2b;
+    background-image: url('/images/background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+
 }
 
 .container {
@@ -15,7 +24,7 @@ body {
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
     border-radius: 16px;
     padding: 30px;
-    border: 2px solid #ffcfdf;
+    border: 2px solid #5fcfff;
 }
 
 /* 메인 페이지 스타일 */
@@ -99,7 +108,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 15px;
-    border-bottom: 2px dashed #ffcfdf;
+    border-bottom: 2px dashed #5fcfff;
     transition: background-color 0.2s;
     border-radius: 8px;
 }
@@ -133,7 +142,7 @@ header {
     border-radius: 16px;
     padding: 30px;
     /*box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-    border: 2px solid #ffcfdf;*/
+    border: 2px solid #5fcfff;*/
 }
 
 #board-detail h1 {
@@ -163,7 +172,7 @@ header {
     min-height: 200px;
     line-height: 1.8;
     font-size: 1.1em;
-    border: 1px solid #ffcfdf;
+    border: 1px solid #5fcfff;
 }
 
 .board-actions {
@@ -212,7 +221,7 @@ form {
 }
 
 input, textarea {
-    border: 2px solid #ffcfdf;
+    border: 2px solid #5fcfff;
     border-radius: 8px;
     padding: 12px;
     transition: border-color 0.3s;
@@ -236,7 +245,7 @@ input:focus, textarea:focus {
 .pagination-btn {
     background-color: #fff1f3;
     color: #ff6f91;
-    border: 2px solid #ffcfdf;
+    border: 2px solid #5fcfff;
     padding: 8px 16px;
     border-radius: 12px;
     transition: all 0.3s;
@@ -261,7 +270,7 @@ input:focus, textarea:focus {
     background-color: #fefafa;
     padding: 20px;
     border-radius: 16px;
-    border: 1px solid #ffcfdf;
+    border: 1px solid #5fcfff;
 }
 
 #comments-section h3 {
@@ -273,7 +282,7 @@ input:focus, textarea:focus {
 
 .comment {
     background-color: white;
-    border: 2px solid #ffcfdf;
+    border: 2px solid #5fcfff;
     border-radius: 8px;
     padding: 15px;
     margin-bottom: 15px;
@@ -300,7 +309,7 @@ input:focus, textarea:focus {
 .comment-actions button {
     background-color: #fff1f3;
     color: #ff6f91;
-    border: 1px solid #ffcfdf;
+    border: 1px solid #5fcfff;
     padding: 5px 10px;
     border-radius: 8px;
     transition: all 0.3s;
@@ -323,7 +332,7 @@ input:focus, textarea:focus {
 #comment-form textarea {
     width: 98%;
     padding: 10px;
-    border: 1px solid #ffcfdf;
+    border: 1px solid #5fcfff;
     border-radius: 8px;
 }
 
@@ -425,7 +434,7 @@ input:focus, textarea:focus {
 #search-input {
     width: 300px;
     padding: 10px;
-    border: 2px solid #ffcfdf;
+    border: 2px solid #5fcfff;
     border-radius: 8px;
     font-size: 1em;
 }

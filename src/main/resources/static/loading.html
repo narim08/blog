@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>AutoBlog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&family=Orbit&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/loading.css">
+</head>
+<body>
+<div class="loading-container">
+    <div class="overlay"></div>
+    <div class="content">
+        <div class="logo">
+            <h1>AUTO<br>BLOG</h1>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+
+        <div class="loading-text">
+            <span id="loading-message">로딩 중...</span>
+            <span id="loading-percent">0%</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 로딩 메시지 변경
+    const loadingMessages = [
+        "정원을 가꾸는 중...",
+        "나뭇잎을 모으는 중...",
+        "꽃을 심는 중...",
+        "마을을 준비하는 중...",
+        "친구들을 초대하는 중..."
+    ];
+
+    function updateLoadingMessage(progress) {
+        const messageIndex = Math.floor((progress / 100) * loadingMessages.length);
+        document.getElementById('loading-message').textContent =
+            loadingMessages[Math.min(messageIndex, loadingMessages.length - 1)];
+    }
+
+    // 프로그레스 바 업데이트
+    function updateProgress(progress) {
+        const progressBar = document.getElementById('progress-bar');
+        const loadingPercent = document.getElementById('loading-percent');
+
+        progressBar.style.width = `${progress}%`;
+        loadingPercent.textContent = `${Math.round(progress)}%`;
+
+        updateLoadingMessage(progress);
+    }
+
+    // 로딩 시뮬레이션
+    function simulateLoading() {
+        let progress = 0;
+        const duration = 7000; // 7초
+        const interval = 50; // 업데이트 간격
+        const increment = (100 / (duration / interval));
+
+        const timer = setInterval(() => {
+            progress += increment;
+
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(timer);
+
+                // 완료 후 0.5초 후에 페이지 전환
+                setTimeout(() => {
+                    const content = document.querySelector('.content');
+                    content.classList.add('hidden');
+
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 500);
+                }, 500);
+            }
+
+            updateProgress(progress);
+        }, interval);
+    }
+
+    // 페이지 로드 시 실행
+    window.addEventListener('DOMContentLoaded', () => {
+        simulateLoading();
+    });
+</script>
+</body>
+</html>

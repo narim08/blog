@@ -3,25 +3,37 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    background-color: #fffaf0;
+    background-color: #c7d9f2;
     color: #555;
 }
 
 .container {
     width: 90%;
     max-width: 1200px;
+    min-height: 80vh;
     margin: 30px auto;
     background-color: #ffffff;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
     border-radius: 16px;
     padding: 30px;
-    border: 2px solid #ffcfdf;
+    border: 2px solid #00008B;
 }
 
+.header-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+h1 {
+    text-align: center;
+    color : #00008B;
+}
 /* 메인 페이지 스타일 */
 header {
-    background-color: #ffefd5;
-    border-bottom: 2px solid #ffcc99;
+    background-color: #f0f0f0;
+    border-bottom: 2px solid #00008B;
     padding: 10px 0;
 }
 
@@ -29,15 +41,25 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+    /*max-width: 1200px;
+    margin: 0 auto;*/
+    padding: 10px 20px;
+}
+
+/* 좌측 여백과 우측 버튼 그룹을 동일 너비로 */
+.nav-left,
+.nav-right {
+    width: 200px; /* 너비 같게 설정해 중앙 정렬 확보 */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
 }
 
 .logo {
     font-size: 24px;
     font-weight: bold;
-    color: #ff6b6b;
+    color: #333333;
     flex-grow: 1;
     text-align: center;
 }
@@ -45,31 +67,30 @@ header {
 .nav-buttons {
     display: flex;
     align-items: center;
-    gap: 10px;
+    /*gap: 10px;*/
 }
 
 .logout-btn {
-    background-color: #ff6b6b;
-    color: white;
-    border: none;
-    padding: 8px 12px;
+    margin-right: 10px;
+    color: black;
+    border: 1px solid black;
+    padding: 8px 15px;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 .logout-btn:hover {
-    background-color: #e55a5a;
+    background-color: #e0e0e0;
 }
 
 .profile-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
     cursor: pointer;
-    border: 2px solid #ff6b6b;
+    border: 1px solid black;
     transition: transform 0.2s;
-    margin-left: auto;
 }
 
 .profile-icon:hover {
@@ -77,54 +98,93 @@ header {
 }
 
 #create-board-btn {
-    background-color: #ff9aa2;
-    color: white;
-    border: none;
-    border-radius: 12px;
+    background-color: white;
+    color: black;
+    border: 2px solid #00008B;
+    border-radius: 8px;
     padding: 10px 20px;
     font-size: 1em;
     font-weight: bold;
     transition: all 0.3s ease;
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
 }
 
 #create-board-btn:hover {
-    background-color: #ff748d;
+    background-color: #87ceeb;
     transform: translateY(-2px);
 }
 
 .board-item {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
     padding: 15px;
-    border-bottom: 2px dashed #ffcfdf;
+    border-bottom: 1px solid #ddd;
     transition: background-color 0.2s;
-    border-radius: 8px;
+    cursor: pointer;
 }
 
 .board-item:hover {
     background-color: #fff1f3;
 }
 
-.board-item a {
-    text-decoration: none;
-    color: #ff6f91;
-    font-weight: 600;
-    font-size: 1.1em;
-    transition: color 0.3s;
+.board-user-info {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 5px;
 }
 
-.board-item a:hover {
-    color: #ff3b72;
+.profile-image {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.user-name {
+    font-size: 13px;
+}
+
+.board-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.board-content h3 {
+  text-align: left;
+  margin: 0;
+  font-size: 1.1em;
+  color: #333;
+}
+
+.board-preview {
+    font-size: 13px;
+    color: #888;
+    margin: 5px 0 10px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.board-content .time {
+  font-size: 0.9em;
+  color: #888;
+  margin-top: 5px;
 }
 
 .board-meta {
     display: flex;
+    justify-content: flex-start;
     gap: 15px;
-    color: #9b9b9b;
-    font-size: 0.9em;
+    font-size: 12px;
+    color: #aaa;
+    margin-top: auto;
 }
 
 /* 게시글 상세 페이지 스타일 */
@@ -134,6 +194,38 @@ header {
     padding: 30px;
     /*box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
     border: 2px solid #ffcfdf;*/
+}
+
+.from-content {
+    display: block;
+    text-align: left;
+    font-family: 'Great Vibes', 'Dancing Script', 'Pacifico', cursive, 'Noto Sans KR', sans-serif;
+    font-size: 1.3em;
+    font-weight: 500;
+    color: #5a8ac6;
+    margin-bottom: 8px;
+    opacity: 0.9;
+}
+
+.board-interaction {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-top: 1px dashed #4682b4;
+    border-bottom: 1px dashed #4682b4;
+}
+
+.board-interaction-left {
+    display: flex;
+    gap: 10px;
+}
+
+.board-view-count {
+    color: #888;
+    font-size: 0.95em;
 }
 
 #board-detail h1 {
@@ -157,13 +249,13 @@ header {
 }
 
 .board-content {
-    background-color: #fefafa;
+    background-color: #f4f9fd;
     padding: 20px;
     border-radius: 12px;
     min-height: 200px;
     line-height: 1.8;
     font-size: 1.1em;
-    border: 1px solid #ffcfdf;
+    border: 1px solid #4682b4;
 }
 
 .board-actions {
@@ -185,17 +277,17 @@ header {
 }
 
 #back-to-list-btn {
-    background-color: #f6c6ea;
+    background-color: #4fc3f7;
     color: white;
 }
 
 #edit-board-btn {
-    background-color: #ff9aa2;
+    background-color: #8aa7cb;
     color: white;
 }
 
 #delete-board-btn {
-    background-color: #ffb7b2;
+    background-color: #63b3d2;
     color: white;
 }
 
@@ -212,7 +304,7 @@ form {
 }
 
 input, textarea {
-    border: 2px solid #ffcfdf;
+    border: 2px solid #4682b4;
     border-radius: 8px;
     padding: 12px;
     transition: border-color 0.3s;
@@ -220,9 +312,13 @@ input, textarea {
 }
 
 input:focus, textarea:focus {
-    border-color: #ff9aa2;
+    border-color: #1e3a8a;
     outline: none;
-    box-shadow: 0 0 0 0.2rem rgba(255, 154, 162, 0.25);
+    box-shadow: 0 0 8px 2px rgba(135, 206, 250, 0.6);
+}
+
+#content {      /* 수정 */
+    min-height: 60vh;
 }
 
 /* 페이지네이션 */
@@ -258,22 +354,22 @@ input:focus, textarea:focus {
 #comments-section {
     margin-top: 30px;
     /*background-color: #fffaf0;*/
-    background-color: #fefafa;
+    background-color: #f4f9fd;
     padding: 20px;
     border-radius: 16px;
-    border: 1px solid #ffcfdf;
+    border: 1px solid #4682b4;
 }
 
 #comments-section h3 {
-    border-bottom: 4px solid #ff9aa2;
+    border-bottom: 4px solid #5a9bd5;
     padding-bottom: 10px;
     margin-bottom: 20px;
-    color: #ff6f91;
+    color: #4a90e2;
 }
 
 .comment {
     background-color: white;
-    border: 2px solid #ffcfdf;
+    border: 2px solid #a0c4ff;
     border-radius: 8px;
     padding: 15px;
     margin-bottom: 15px;
@@ -298,9 +394,9 @@ input:focus, textarea:focus {
 }
 
 .comment-actions button {
-    background-color: #fff1f3;
-    color: #ff6f91;
-    border: 1px solid #ffcfdf;
+    background-color: #e3f2fd;
+    color: #2c6fe3;
+    border: 1px solid #4682b4;
     padding: 5px 10px;
     border-radius: 8px;
     transition: all 0.3s;
@@ -308,7 +404,7 @@ input:focus, textarea:focus {
 }
 
 .comment-actions button:hover {
-    background-color: #ff9aa2;
+    background-color: #1565c0;
     color: white;
 }
 
@@ -323,13 +419,13 @@ input:focus, textarea:focus {
 #comment-form textarea {
     width: 98%;
     padding: 10px;
-    border: 1px solid #ffcfdf;
+    border: 1px solid #174ea6;
     border-radius: 8px;
 }
 
 #comment-form button {
     align-self: flex-end;
-    background-color: #ff6f91;
+    background-color: #4682b4;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -356,22 +452,22 @@ input:focus, textarea:focus {
 }
 
 #edit-board-form button[type="submit"] {
-    background-color: #ff9aa2;
+    background-color: #5a9bd5;
     color: white;
 }
 
 #edit-board-form button[type="submit"]:hover {
-    background-color: #ff6f91;
+    background-color: #0d6efd;
     transform: translateY(-2px);
 }
 
 #cancel-btn {
-    background-color: #f6c6ea;
+    background-color: #3db9ff;
     color: white;
 }
 
 #cancel-btn:hover {
-    background-color: #d9a6d1;
+    background-color: #0a58ca;
     transform: translateY(-2px);
 }
 
@@ -419,30 +515,35 @@ input:focus, textarea:focus {
     justify-content: center;
     align-items: center;
     gap: 10px;
-    margin: 20px 0;
+    margin: 10px 0;
+    width:100%
 }
 
 #search-input {
     width: 300px;
     padding: 10px;
-    border: 2px solid #ffcfdf;
+    border: 2px solid #00008B;
     border-radius: 8px;
     font-size: 1em;
+    margin-left: 13%;
 }
 
 #search-btn {
     padding: 10px 20px;
     border-radius: 8px;
-    background-color: #ff9aa2;
-    color: white;
+    background-color: white;
+    color: black;
+    font-size: 1em;
     font-weight: bold;
-    border: none;
+    border: 2px solid #00008B;
     cursor: pointer;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
 }
 
 #search-btn:hover {
-    background-color: #ff6f91;
+    background-color: #87ceeb;
     transform: translateY(-2px);
 }
 

@@ -3,19 +3,20 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    background-color: #fffaf0;
+    background-color: #c7d9f2;
     color: #555;
 }
 
-.container {
+.container {        /* 수정 */
     width: 90%;
     max-width: 1200px;
+    min-height: 80vh;
     margin: 30px auto;
     background-color: #ffffff;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
     border-radius: 16px;
     padding: 30px;
-    border: 2px solid #ffcfdf;
+    border: 2px solid #4682b4;
 }
 
 /* 메인 페이지 스타일 */
@@ -136,6 +137,38 @@ header {
     border: 2px solid #ffcfdf;*/
 }
 
+.from-content {
+    display: block;
+    text-align: left;
+    font-family: 'Great Vibes', 'Dancing Script', 'Pacifico', cursive, 'Noto Sans KR', sans-serif;
+    font-size: 1.3em;
+    font-weight: 500;
+    color: #5a8ac6;
+    margin-bottom: 8px;
+    opacity: 0.9;
+}
+
+.board-interaction {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-top: 1px dashed #4682b4;
+    border-bottom: 1px dashed #4682b4;
+}
+
+.board-interaction-left {
+    display: flex;
+    gap: 10px;
+}
+
+.board-view-count {
+    color: #888;
+    font-size: 0.95em;
+}
+
 #board-detail h1 {
     color: #ff6f91;
     border-bottom: 4px solid #ff9aa2;
@@ -157,13 +190,13 @@ header {
 }
 
 .board-content {
-    background-color: #fefafa;
+    background-color: #f4f9fd;
     padding: 20px;
     border-radius: 12px;
     min-height: 200px;
     line-height: 1.8;
     font-size: 1.1em;
-    border: 1px solid #ffcfdf;
+    border: 1px solid #4682b4;
 }
 
 .board-actions {
@@ -185,17 +218,17 @@ header {
 }
 
 #back-to-list-btn {
-    background-color: #f6c6ea;
+    background-color: #4fc3f7;
     color: white;
 }
 
 #edit-board-btn {
-    background-color: #ff9aa2;
+    background-color: #8aa7cb;
     color: white;
 }
 
 #delete-board-btn {
-    background-color: #ffb7b2;
+    background-color: #63b3d2;
     color: white;
 }
 
@@ -212,7 +245,7 @@ form {
 }
 
 input, textarea {
-    border: 2px solid #ffcfdf;
+    border: 2px solid #4682b4;
     border-radius: 8px;
     padding: 12px;
     transition: border-color 0.3s;
@@ -220,9 +253,13 @@ input, textarea {
 }
 
 input:focus, textarea:focus {
-    border-color: #ff9aa2;
+    border-color: #1e3a8a;
     outline: none;
-    box-shadow: 0 0 0 0.2rem rgba(255, 154, 162, 0.25);
+    box-shadow: 0 0 8px 2px rgba(135, 206, 250, 0.6);
+}
+
+#content {      /* 수정 */
+    min-height: 60vh;
 }
 
 /* 페이지네이션 */
@@ -258,22 +295,22 @@ input:focus, textarea:focus {
 #comments-section {
     margin-top: 30px;
     /*background-color: #fffaf0;*/
-    background-color: #fefafa;
+    background-color: #f4f9fd;
     padding: 20px;
     border-radius: 16px;
-    border: 1px solid #ffcfdf;
+    border: 1px solid #4682b4;
 }
 
 #comments-section h3 {
-    border-bottom: 4px solid #ff9aa2;
+    border-bottom: 4px solid #5a9bd5;
     padding-bottom: 10px;
     margin-bottom: 20px;
-    color: #ff6f91;
+    color: #4a90e2;
 }
 
 .comment {
     background-color: white;
-    border: 2px solid #ffcfdf;
+    border: 2px solid #a0c4ff;
     border-radius: 8px;
     padding: 15px;
     margin-bottom: 15px;
@@ -298,9 +335,9 @@ input:focus, textarea:focus {
 }
 
 .comment-actions button {
-    background-color: #fff1f3;
-    color: #ff6f91;
-    border: 1px solid #ffcfdf;
+    background-color: #e3f2fd;
+    color: #2c6fe3;
+    border: 1px solid #4682b4;
     padding: 5px 10px;
     border-radius: 8px;
     transition: all 0.3s;
@@ -308,7 +345,7 @@ input:focus, textarea:focus {
 }
 
 .comment-actions button:hover {
-    background-color: #ff9aa2;
+    background-color: #1565c0;
     color: white;
 }
 
@@ -323,13 +360,13 @@ input:focus, textarea:focus {
 #comment-form textarea {
     width: 98%;
     padding: 10px;
-    border: 1px solid #ffcfdf;
+    border: 1px solid #174ea6;
     border-radius: 8px;
 }
 
 #comment-form button {
     align-self: flex-end;
-    background-color: #ff6f91;
+    background-color: #4682b4;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -356,22 +393,22 @@ input:focus, textarea:focus {
 }
 
 #edit-board-form button[type="submit"] {
-    background-color: #ff9aa2;
+    background-color: #5a9bd5;
     color: white;
 }
 
 #edit-board-form button[type="submit"]:hover {
-    background-color: #ff6f91;
+    background-color: #0d6efd;
     transform: translateY(-2px);
 }
 
 #cancel-btn {
-    background-color: #f6c6ea;
+    background-color: #3db9ff;
     color: white;
 }
 
 #cancel-btn:hover {
-    background-color: #d9a6d1;
+    background-color: #0a58ca;
     transform: translateY(-2px);
 }
 

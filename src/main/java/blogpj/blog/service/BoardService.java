@@ -41,6 +41,7 @@ public class BoardService {
         board.setContent(boardRequestDTO.getContent());
         board.setCreateTime(LocalDateTime.now());
         board.setUpdateTime(LocalDateTime.now());
+        board.setTag(boardRequestDTO.getTag());
 
         Board savedBoard = boardRepository.save(board);
         return convertToResponseDTO(savedBoard);
@@ -106,6 +107,7 @@ public class BoardService {
         board.setTitle(boardRequestDTO.getTitle());
         board.setContent(boardRequestDTO.getContent());
         board.setUpdateTime(LocalDateTime.now());
+        board.setTag(boardRequestDTO.getTag());
 
         //Board updateBoard = boardRepository.save(board); //transactional 에서 자동 변경감지로 업뎃해줌
         return convertToResponseDTO(board);
@@ -164,6 +166,7 @@ public class BoardService {
         responseDTO.setCreateTime(board.getCreateTime());
         responseDTO.setUpdateTime(board.getUpdateTime());
         responseDTO.setViewCount(board.getViewCount());
+        responseDTO.setTag(board.getTag());
 
         return responseDTO;
     }

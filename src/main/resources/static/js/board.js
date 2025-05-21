@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="board-user-info">
                             <img src="/images/default-profile.png" alt="프로필 사진" class="profile-image" />
                             <span class="user-name">${board.userName}</span>
+                            <div class="board-tag ${board.tag}"></div>
                         </div>
                         <div class="board-content">
                             <h3 class="board-title">${board.title}</h3>

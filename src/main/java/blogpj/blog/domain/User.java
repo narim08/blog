@@ -23,6 +23,9 @@ public class User {
     @Column(nullable = false, length = 255)
     private String password;
 
+    @Column(name = "tag")
+    private String tag;
+
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 

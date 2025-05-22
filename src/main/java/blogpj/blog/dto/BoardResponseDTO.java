@@ -13,6 +13,7 @@ public class BoardResponseDTO {
     private String title;
     private String userName;
     private String content;
+    private String tag;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
     private int viewCount;

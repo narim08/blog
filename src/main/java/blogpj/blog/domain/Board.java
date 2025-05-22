@@ -30,6 +30,9 @@ public class Board {
     @Column(nullable = false, columnDefinition = "TEXT") // TEXT 타입
     private String content;
 
+    @Column(name = "tag")
+    private String tag;
+
     @Column(nullable = false, updatable = false) //생성 시간은 수정 불가
     private LocalDateTime createTime;
 

@@ -16,6 +16,19 @@ body {
 
 }
 
+.main-layout {
+    display: flex;
+    align-items: stretch;
+    gap: 20px;
+    margin-top: 30px;
+    max-width: 1400px;        /* 전체 레이아웃의 최대 너비 */
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;       /* 중앙 정렬 핵심 */
+    padding: 0 20px;          /* 좌우 여백 */
+    box-sizing: border-box;
+}
+
 .container {
     width: 90%;
     max-width: 1200px;
@@ -26,6 +39,17 @@ body {
     border-radius: 16px;
     padding: 30px;
     border: 2px solid #00008B;
+}
+.main-container {
+    width: 100%;
+    max-width: 1200px;
+    background-color: #ffffff;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    padding: 30px;
+    border: 2px solid #00008B;
+    box-sizing: border-box;
+    flex-grow: 1;
 }
 
 .header-container {
@@ -144,6 +168,7 @@ header {
     font-size: 13px;
     color: #555;
     margin-bottom: 5px;
+    justify-content: space-between;
 }
 
 .profile-image {
@@ -157,6 +182,12 @@ header {
     font-size: 13px;
 }
 
+.board-tag {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-left: auto;
+}
 .board-content {
     flex: 1;
     display: flex;
@@ -196,6 +227,107 @@ header {
     margin-top: auto;
 }
 
+.sidebar {
+    width: 340px;
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.calendar-container {
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    border: 2px solid #00008B;
+    box-sizing: border-box;
+}
+
+.links-container {
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    border: 2px solid #00008B;
+    box-sizing: border-box;
+
+    min-height: 500px;
+}
+
+#calendar-input {
+    display: none;
+}
+
+.links-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.links-list li + li {
+    margin-top: 10px; /* 링크들 간 간격 */
+}
+
+.links-list a {
+    color: #333;
+    text-decoration: none;
+}
+
+.links-list a:hover {
+    text-decoration: underline;
+}
+
+.day-has-event {
+    background-color: #FFDAB9 !important;
+    border-radius: 50%;
+}
+
+.tag-tag1 { background-color: #FFB3B3 !important; } /* 연한 빨강 */
+.tag-tag2 { background-color: #FFCC99 !important; } /* 연한 주황 */
+.tag-tag3 { background-color: #FFF299 !important; } /* 연한 노랑 */
+.tag-tag4 { background-color: #CCFFCC !important; } /* 연한 초록 */
+.tag-tag5 { background-color: #99CCFF !important; } /* 연한 파랑 */
+.tag-tag6 { background-color: #9999FF !important; } /* 연한 남색 */
+
+.tag-tag1, .tag-tag2, .tag-tag3, .tag-tag4, .tag-tag5, .tag-tag6 {
+    border-radius: 50%;
+    color: #333 !important;
+    font-weight: bold;
+    position: relative;
+}
+
+.main-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex-grow: 1;
+}
+
+.tag-bar {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+}
+
+.tag {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    color: #333;
+    transition: transform 0.2s ease;
+}
+
+.tag:hover {
+  transform: scale(1.05);
+}
 /* 게시글 상세 페이지 스타일 */
 #board-detail {
     background-color: #ffffff;
@@ -559,6 +691,15 @@ input:focus, textarea:focus {
 
 /* 반응형 디자인 */
 @media (max-width: 768px) {
+    .main-layout {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .sidebar, .container {
+        width: 100%;
+    }
+
     .container {
         padding: 20px;
     }

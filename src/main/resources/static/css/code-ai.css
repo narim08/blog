@@ -1,0 +1,52 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f5f5f5;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+#app {
+  width: 600px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  padding: 30px;
+}
+
+.balloon {
+  background: #e0f7fa;
+  padding: 15px;
+  border-radius: 20px;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+#options-box {
+  margin-bottom: 20px;
+}
+
+.option-button {
+  margin: 5px;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  background-color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.option-button.selected {
+  background-color: #007acc;
+  color: white;
+  border-color: #007acc;
+}
+
+input[type="text"], textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+}
+
+#navigation-box {
+  text-align: right;
+}

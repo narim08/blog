@@ -6,8 +6,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,33 +31,40 @@ public class VelogCrawlerService {
     public List<VelogPost> getTopPosts() {
         System.setProperty("webdriver.chrome.driver", "C:\\chromedriver\\chromedriver.exe");
 
-        // ✅ headless 설정 추가
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
+        // 디버깅할 땐 headless 모드 끄기 (아래 줄 주석 처리)
+        options.addArguments("--headless=new");
         options.addArguments("--disable-gpu");
-        options.addArguments("--window-size=1920,1080");
+        options.addArguments("--no-sandbox");
 
         WebDriver driver = new ChromeDriver(options);
         List<VelogPost> posts = new ArrayList<>();
 
         try {
-            driver.get("https://velog.io/");
-            Thread.sleep(3000); // ⏱ 로딩 대기 시간
+            driver.get("https://velog.io/trending");
 
-            List<WebElement> elements = driver.findElements(By.cssSelector("a[href^='/@']"));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector("li.PostCard_block__FTMsy")));
 
-            for (int i = 0; i < Math.min(5, elements.size()); i++) {
-                String title = elements.get(i).getText().trim();
-                String link = elements.get(i).getAttribute("href");
-                if (!title.isEmpty()) {
-                    posts.add(new VelogPost(title, link));
-                }
+            int count = Math.min(5, driver.findElements(By.cssSelector("li.PostCard_block__FTMsy")).size());
+
+            for (int i = 0; i < count; i++) {
+                // 매번 요소를 다시 찾아 stale 문제 방지
+                WebElement item = driver.findElements(By.cssSelector("li.PostCard_block__FTMsy")).get(i);
+
+                WebElement linkEl = item.findElement(By.cssSelector("a.PostCard_styleLink__nc1Hy"));
+                String link = linkEl.getAttribute("href");
+
+                WebElement imgEl = linkEl.findElement(By.tagName("img"));
+                String title = imgEl.getAttribute("alt").trim();
+
+                posts.add(new VelogPost(title, link));
             }
 
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            driver.quit(); // 창 닫기
+            driver.quit();
         }
 
         return posts;

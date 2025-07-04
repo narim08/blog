@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>게시판</title>
@@ -43,11 +43,11 @@
         </div>
 
         <div class="links-container">
-            <h3>링크</h3>
+            <h3>🔥 Velog 인기글 🔥</h3>
             <ul class="links-list">
-                <li><a href="#">링크1</a></li>
-                <li><a href="#">링크2</a></li>
-                <li><a href="#">링크3</a></li>
+                <li th:each="post : ${velogPosts}">
+                    <a th:href="${post.link}" th:text="${post.title}" target="_blank"></a>
+                </li>
             </ul>
         </div>
     </div>

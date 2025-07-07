@@ -32,7 +32,6 @@ public class VelogCrawlerService {
         System.setProperty("webdriver.chrome.driver", "C:\\chromedriver\\chromedriver.exe");
 
         ChromeOptions options = new ChromeOptions();
-        // 디버깅할 땐 headless 모드 끄기 (아래 줄 주석 처리)
         options.addArguments("--headless=new");
         options.addArguments("--disable-gpu");
         options.addArguments("--no-sandbox");
@@ -56,7 +55,7 @@ public class VelogCrawlerService {
                 String link = linkEl.getAttribute("href");
 
                 WebElement imgEl = linkEl.findElement(By.tagName("img"));
-                String title = imgEl.getAttribute("alt").trim();
+                String title = imgEl.getAttribute("alt").trim().replace(" post", "");;
 
                 posts.add(new VelogPost(title, link));
             }

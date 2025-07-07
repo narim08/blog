@@ -5,6 +5,7 @@
     <title>게시판</title>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="/css/velog.css" />
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
 
@@ -42,10 +43,10 @@
             </div>
         </div>
 
-        <div class="links-container">
-            <h3>🔥 Velog 인기글 🔥</h3>
+        <div class="links-container velog-popular">
+            <h3 class="velog-title">🔥 Velog 실시간 인기글 🔥</h3>
             <ul class="links-list">
-                <li th:each="post : ${velogPosts}">
+                <li th:each="post : ${velogPosts}" class="velog-post-item">
                     <a th:href="${post.link}" th:text="${post.title}" target="_blank"></a>
                 </li>
             </ul>

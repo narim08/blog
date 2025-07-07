@@ -42,8 +42,8 @@ public class VelogCrawlerService {
         try {
             driver.get("https://velog.io/trending");
 
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector("li.PostCard_block__FTMsy")));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[class*='PostCard_styleLink']")));
 
             int count = Math.min(5, driver.findElements(By.cssSelector("li.PostCard_block__FTMsy")).size());
 
@@ -51,7 +51,7 @@ public class VelogCrawlerService {
                 // 매번 요소를 다시 찾아 stale 문제 방지
                 WebElement item = driver.findElements(By.cssSelector("li.PostCard_block__FTMsy")).get(i);
 
-                WebElement linkEl = item.findElement(By.cssSelector("a.PostCard_styleLink__nc1Hy"));
+                WebElement linkEl = item.findElement(By.cssSelector("a[class*='PostCard_styleLink']"));
                 String link = linkEl.getAttribute("href");
 
                 WebElement imgEl = linkEl.findElement(By.tagName("img"));

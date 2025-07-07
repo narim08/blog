@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (response.ok) {
-                window.location.href = '/index.html';
+                window.location.href = '/';
             } else {
                 const errorData = await response.json();
                 alert(errorData.message || '게시글 작성에 실패했습니다.');
@@ -48,6 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     cancelBtn.addEventListener('click', () => {
-        window.location.href = '/index.html';
+        window.location.href = '/';
     });
 });

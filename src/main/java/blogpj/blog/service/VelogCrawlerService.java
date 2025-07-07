@@ -42,7 +42,7 @@ public class VelogCrawlerService {
         try {
             driver.get("https://velog.io/trending");
 
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[class*='PostCard_styleLink']")));
 
             int count = Math.min(5, driver.findElements(By.cssSelector("li.PostCard_block__FTMsy")).size());

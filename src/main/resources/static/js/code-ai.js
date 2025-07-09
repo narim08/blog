@@ -234,9 +234,9 @@ function submitGeneratedProject() {
     return;
   }
 
-  const title = "AI 생성 프로젝트";  // 제목은 필요 시 사용자 입력으로 바꿔도 됨
+  const title = "AI 생성 프로젝트";
   const content = document.querySelector("textarea").value;
-  const tag = "AI";  // 태그도 필요에 따라 동적으로 처리 가능
+  const tag = "AI";
 
   fetch("/api/board", {
     method: "POST",

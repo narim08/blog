@@ -220,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     backToListBtn.addEventListener('click', () => {
-        window.location.href = '/index.html';
+        window.location.href = '/home';
     });
 
     editBoardBtn.addEventListener('click', () => {
@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (response.ok) {
-                window.location.href = '/index.html';
+                window.location.href = '/home';
             } else {
                 const errorData = await response.json();
                 alert(errorData.message || '게시글 삭제에 실패했습니다.');

@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Create board button
     createBoardBtn.addEventListener('click', () => {
-        window.location.href = '/create-board.html';
+        window.location.href = '/character-background.html';
     });
 
     // Search functionality

@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('username', userData.username);
 
                 // Redirect to board list
-                window.location.href = '/index.html';
+                window.location.href = '/home';
             } else {
                 // Handle login error
                 const errorData = await response.json();

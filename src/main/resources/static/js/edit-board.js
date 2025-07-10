@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Verify the current user is the board owner
             if (board.userName !== username) {
                 alert('수정 권한이 없습니다.');
-                window.location.href = '/';
+                window.location.href = '/home';
                 return;
             }
 

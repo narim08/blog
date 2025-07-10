@@ -15,7 +15,7 @@ public class HomeController {
 
     private final VelogCrawlerService velogCrawlerService;
 
-    @GetMapping("/")
+    @GetMapping("/home")
     public String home(Model model) {
         List<VelogPost> posts = velogCrawlerService.getTopPosts();
         model.addAttribute("velogPosts", posts);

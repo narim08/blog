@@ -215,7 +215,7 @@ document.getElementById("submit-btn").onclick = () => {
             </div>
             <div>
               <button onclick="submitGeneratedProject()" class="custom-button button-complete">작성 완료</button>
-              <button onclick="location.href='index.html'" class="custom-button button-home">처음으로</button>
+              <button onclick="location.href='/home'" class="custom-button button-home">처음으로</button>
             </div>
           </div>
         </div>
@@ -253,7 +253,7 @@ function submitGeneratedProject() {
   })
     .then(res => {
       if (res.ok) {
-        window.location.href = "/index.html";
+        window.location.href = "/home";
       } else {
         return res.json().then(data => {
           alert(data.message || "게시글 작성에 실패했습니다.");

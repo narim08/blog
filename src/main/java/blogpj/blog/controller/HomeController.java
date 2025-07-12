@@ -17,8 +17,8 @@ public class HomeController {
 
     @GetMapping("/home")
     public String home(Model model) {
-        List<VelogPost> posts = velogCrawlerService.getTopPosts();
-        model.addAttribute("velogPosts", posts);
+//        List<VelogPost> posts = velogCrawlerService.getTopPosts();
+//        model.addAttribute("velogPosts", posts);
         return "index";  // src/main/resources/templates/index.html
     }
 }

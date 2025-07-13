@@ -3,9 +3,32 @@
 <head>
     <meta charset="UTF-8" />
     <title>개념 공부</title>
-    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/study-ai.css" />
 </head>
 <body>
 
+<div class="container">
+    <!-- 선택지 영역 -->
+    <div class="choices" id="choices"></div>
+
+    <!-- 말풍선 영역 -->
+    <div class="question-bubble" id="questionBox">
+        문제를 불러오는 중입니다...
+    </div>
+
+    <!-- 다음 버튼 -->
+    <button id="nextButton" onclick="submitAnswer()">다음</button>
+
+    <!-- 정답/오답 결과 화면 -->
+    <div class="result-screen" id="resultScreen" style="display: none;">
+        <h2 id="resultText"></h2>
+        <p id="explanationText"></p>
+        <button onclick="loadQuestion()">문제 더 풀기</button>
+        <button onclick="goHome()">처음으로</button>
+        <button onclick="writePost()">글 작성</button>
+    </div>
+</div>
+
+<script src="/js/study-ai.js"></script>
 </body>
 </html>

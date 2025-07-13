@@ -18,7 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const title = document.getElementById('title').value;
         const content = document.getElementById('content').value;
-
+        const tag = document.getElementById('tag').value;
+        console.log("선택한 태그:", tag);
         try {
             const response = await fetch('/api/board', {
                 method: 'POST',
@@ -29,12 +30,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({
                     title,
                     userName: username,
-                    content
+                    content,
+                    tag
                 })
             });
 
             if (response.ok) {
-                window.location.href = '/index.html';
+                window.location.href = '/home';
             } else {
                 const errorData = await response.json();
                 alert(errorData.message || '게시글 작성에 실패했습니다.');
@@ -46,6 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     cancelBtn.addEventListener('click', () => {
-        window.location.href = '/index.html';
+        window.location.href = '/home';
     });
 });

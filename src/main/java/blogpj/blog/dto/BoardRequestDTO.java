@@ -10,4 +10,5 @@ public class BoardRequestDTO {
     private String title;
     private String userName;
     private String content;
+    private String tag;
 }

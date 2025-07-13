@@ -1,4 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+    function timeAgo(timeString) {
+            const now = new Date();
+            const past = new Date(timeString);
+            const diff = Math.floor((now - past) / 1000);
+
+            if (diff < 60) return `${diff}초 전`;
+            if (diff < 3600) return `${Math.floor(diff / 60)}분 전`;
+            if (diff < 86400) return `${Math.floor(diff / 3600)}시간 전`;
+            if (diff < 604800) return `${Math.floor(diff / 86400)}일 전`;
+
+            return past.toLocaleDateString();
+        }
+
     const createBoardBtn = document.getElementById('create-board-btn');
     const boardList = document.getElementById('board-list');
     const paginationContainer = document.getElementById('pagination');
@@ -47,9 +61,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 const boardItem = document.createElement('div');
                 boardItem.classList.add('board-item');
                 boardItem.innerHTML = `
-                    <h3>${board.title}</h3>
-                    <p>작성자: ${board.userName}</p>
-                    <p>작성일: ${new Date(board.createTime).toLocaleString()}</p>
+                    <div class="board-user-info">
+                            <img src="/images/default-profile.png" alt="프로필 사진" class="profile-image" />
+                            <span class="user-name">${board.userName}</span>
+                            <div class="board-tag ${board.tag}"></div>
+                        </div>
+                        <div class="board-content">
+                            <h3 class="board-title">${board.title}</h3>
+                            <p class="board-preview">${board.content}</p>
+                            <div class="board-meta">
+                                <span class="likes">❤️ ${board.likes || 0}</span>
+                                <span class="time" title="${new Date(board.createTime).toLocaleString()}">
+                                    ${timeAgo(board.createTime)}
+                                </span>
+                            </div>
+                        </div>
                 `;
                 boardItem.addEventListener('click', () => {
                     window.location.href = `/board-detail.html?id=${board.id}`;
@@ -82,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Create board button
     createBoardBtn.addEventListener('click', () => {
-        window.location.href = '/create-board.html';
+        window.location.href = '/character-background.html';
     });
 
     // Search functionality
@@ -97,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.removeItem('username');
         window.location.href = '/login.html';
     });*/
-
+    /* 로그아웃 버튼 처리
     document.querySelector('.container').insertBefore(logoutBtn, createBoardBtn);
+    */
 });

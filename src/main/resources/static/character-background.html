@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>글 작성</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            height: 100vh;
+            background: black url('images/character-background.jpg') no-repeat center center;
+            background-size: cover;
+            overflow: hidden;
+            overflow-y: scroll;
+        }
+
+        .username {
+            color: green !important;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="top-bar hidden">
+    <a href="/code-ai.html" class="bar">프로젝트 생성</a>
+    <a href="/concept-study.html" class="bar">개념 공부</a>
+    <a href="/create-board.html" class="bar">자유 작성</a>
+</div>
+
+<div class="dialogue-container hidden">
+    <div class="character-name" id="character-name">마스터</div>
+    <div class="dialogue-text" id="dialogue"></div>
+    <div class="dialogue-bar"></div>
+</div>
+
+<script>
+    const dialogueEl = document.getElementById('dialogue');
+    const text = `안녕하세요, <span class="username">USER</span>님!<br>무엇을 도와드릴까요?`;
+
+    let index = 0;
+    let isTag = false;  // 태그 처리 여부
+    let buffer = '';    // 태그 문자 모으기
+
+    function typeWriter() {
+        if (index < text.length) {
+            const char = text[index];
+
+            if (char === '<') {
+                isTag = true;
+                buffer += char;
+            } else if (char === '>') {
+                buffer += char;
+                dialogueEl.innerHTML += buffer;  // 태그 전체 한번에 붙이기
+                buffer = '';
+                isTag = false;
+            } else if (isTag) {
+                buffer += char;  // 태그 안 문자는 버퍼에 저장
+            } else {
+                // 태그 밖의 일반 문자 한 글자씩 출력
+                dialogueEl.innerHTML += char;
+            }
+
+            index++;
+            setTimeout(typeWriter, 20);
+        }
+    }
+
+    setTimeout(() => {
+        document.querySelector('.top-bar').classList.add('show');
+        document.querySelector('.dialogue-container').classList.add('show');
+
+        dialogueEl.innerHTML = '';
+        typeWriter();
+    }, 1500);
+</script>
+
+</body>
+</html>

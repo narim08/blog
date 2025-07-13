@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="/css/velog.css" />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
+
+    <style>
+        body {
+            background-image: url('/images/background.jpg'); /* 이미지 경로 */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #222; /* 기본 글자색 (배경에 따라 조절 가능) */
+            font-family: 'Segoe UI', sans-serif;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-left"></div> <!-- 좌측 여백 -->
+            <div class="logo">Auto Blog</div>
+            <div class="nav-right nav-buttons">
+                <button id="logout-btn" class="logout-btn">로그아웃</button>
+                <img id="profile-icon" src="/images/default-profile.png" alt="프로필" class="profile-icon">
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="main-layout">
+    <div class="sidebar">
+        <div class="calendar-container">
+            <h3>캘린더</h3>
+            <div class="calendar">
+                <input type="text" id="calendar-input" />
+            </div>
+        </div>
+
+        <div class="links-container velog-popular">
+            <h3 class="velog-title">🔥 Velog 실시간 인기글 🔥</h3>
+            <ul class="links-list">
+                <li th:each="post : ${velogPosts}" class="velog-post-item">
+                    <a th:href="${post.link}" th:text="${post.title}" target="_blank"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+        <div class="tag-bar">
+            <button class="tag tag-tag1">태그1</button>
+            <button class="tag tag-tag2">태그2</button>
+            <button class="tag tag-tag3">태그3</button>
+            <button class="tag tag-tag4">태그4</button>
+            <button class="tag tag-tag5">태그5</button>
+            <button class="tag tag-tag6">태그6</button>
+        </div>
+
+        <div class="main-container">
+            <h1>게시판</h1>
+            <div class="header-container">
+                <div id="search-container">
+                    <input type="text" id="search-input"/>
+                    <button id="search-btn">검색</button>
+                </div>
+                <button id="create-board-btn">글 작성</button>
+            </div>
+
+            <div id="board-list">
+                <!-- 게시글 목록이 여기에 동적으로 추가됨 -->
+            </div>
+
+            <div id="pagination">
+                <!-- 페이지네이션 버튼 -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const events = {
+        "2025-05-22": "태그1",
+        "2025-05-23": "태그2",
+        "2025-05-24": "태그3",
+        "2025-05-25": "태그4",
+        "2025-05-26": "태그5",
+        "2025-05-27": "태그6"
+    };
+
+    flatpickr("#calendar-input", {
+        inline: true,
+        locale: "ko",
+        dateFormat: "Y-m-d",
+        onDayCreate: function(dObj, dStr, fp, dayElem) {
+            const date = dayElem.dateObj.toISOString().split('T')[0];
+            const eventDates = Object.keys(events);
+
+            const eventIndex = eventDates.indexOf(date);
+            if (eventIndex !== -1) {
+                dayElem.classList.add("tag-tag" + eventIndex);
+                dayElem.title = events[date];
+            }
+        }
+    });
+</script>
+
+<script src="/js/board.js"></script>
+</body>
+</html>

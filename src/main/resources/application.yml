@@ -1,6 +1,6 @@
-openai:
+gemini:
   api:
-    key: sk-...YOUR_API_KEY...
+    key: ${GEMINI_API_KEY}
 
 spring:
   mvc:

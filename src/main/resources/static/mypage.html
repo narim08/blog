@@ -491,7 +491,7 @@
                 <div class="profile-img-container">
                     <img class="profile-img" src="/api/placeholder/120/120" alt="프로필 이미지">
                 </div>
-                <h2>🌿 숲지기님 🌿</h2>
+                <h2 id="nickname-area">🌿 숲지기님 🌿</h2>
                 <p>🏝️ 입도일: 2023년 10월 1일</p>
                 <button class="edit-profile-btn">프로필 꾸미기</button>
             </div>
@@ -605,6 +605,11 @@
 <script>
     // 페이지가 로드되면 차트 생성
     document.addEventListener('DOMContentLoaded', function() {
+        // 닉네임 동적 반영
+        const nickname = localStorage.getItem("nickname");
+        if (nickname) {
+            document.getElementById("nickname-area").innerText = `🌿 ${nickname}님 🌿`;
+        }
 
         // 사용자 통계 데이터 가져오기
         fetchUserStats();

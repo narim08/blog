@@ -7,11 +7,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
+        /* CSS는 기존과 동일하므로 생략합니다. */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'CuteFont', 'Noto Sans KR', Arial, sans-serif;
+            font-family: 'Gaegu', 'Noto Sans KR', Arial, sans-serif;
         }
 
         body
@@ -219,7 +220,7 @@
             position: relative;
         }
 
-        .content-section h3 {
+        .content-section > h3 { /* 자식 h3에만 적용되도록 수정 */
             color: #0277bd;
             font-size: 1.5rem;
             margin-bottom: 20px;
@@ -228,7 +229,7 @@
             display: inline-block;
         }
 
-        .content-section h3:after {
+        .content-section > h3:after {
             content: "";
             position: absolute;
             bottom: -5px;
@@ -271,6 +272,7 @@
             border-radius: 20px;
             position: relative;
             overflow: hidden;
+            transition: width 0.5s ease-in-out;
         }
 
         .progress:after {
@@ -399,49 +401,190 @@
             border: 2px solid #81d4fa;
         }
 
-        /* 동물의 숲 스타일 데코레이션 요소 */
-        .leaf-decoration {
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .content-header h3 {
+            margin-bottom: 0;
+            text-align: left;
+            display: block;
+            position: relative;
+            color: #0277bd;
+            font-size: 1.5rem;
+        }
+
+        .content-header h3:after {
+            content: "";
             position: absolute;
-            width: 20px;
-            height: 20px;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #4fc3f7;
+            border-radius: 3px;
+        }
+
+        .goal-setting-btn {
+            background-color: #81d4fa;
+            color: #01579b;
+            border: 3px solid #4fc3f7;
+            padding: 8px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            font-weight: bold;
+            box-shadow: 0 4px 0 #0277bd;
+            flex-shrink: 0;
+        }
+
+        .goal-setting-btn:hover {
+            background-color: #4fc3f7;
+            transform: translateY(-2px);
+        }
+
+        .goal-setting-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #0277bd;
+        }
+
+        /* ========== 목표 설정 모달 스타일 시작 ========== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(90, 62, 43, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: #fffde7;
+            padding: 30px;
+            border-radius: 20px;
+            border: 5px solid #fff176;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            position: relative;
+            animation: modal-pop 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        @keyframes modal-pop {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-content h2 {
+            color: #5a3e2b;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+
+        .goal-picker-container {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .goal-picker {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .goal-picker label {
+            font-size: 1.2rem;
+            color: #6d4c41;
+            font-weight: bold;
+        }
+
+        .goal-picker select {
+            font-family: 'Gaegu', sans-serif;
+            font-size: 1.1rem;
+            padding: 10px;
+            border-radius: 15px;
+            border: 3px solid #a5d6a7;
+            background-color: #f1f8e9;
+            color: #33691e;
+            cursor: pointer;
+            width: 120px;
+            text-align: center;
+        }
+
+        .goal-picker select:focus {
+            outline: none;
+            border-color: #81c784;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .modal-btn {
+            padding: 12px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+        }
+
+        .cancel-btn {
+            background-color: #ffcdd2;
+            color: #c62828;
+            border: 3px solid #ef9a9a;
+            box-shadow: 0 4px 0 #b71c1c;
+        }
+        .cancel-btn:hover {
+            background-color: #ef9a9a;
+            transform: translateY(-2px);
+        }
+        .cancel-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #b71c1c;
+        }
+
+        .save-btn {
+            background-color: #c8e6c9;
+            color: #2e7d32;
+            border: 3px solid #a5d6a7;
+            box-shadow: 0 4px 0 #1b5e20;
+        }
+        .save-btn:hover {
             background-color: #a5d6a7;
-            border-radius: 50% 0 50% 0;
-            transform: rotate(45deg);
+            transform: translateY(-2px);
         }
-
-        .leaf-1 {
-            top: 20px;
-            right: 20px;
+        .save-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #1b5e20;
         }
-
-        .leaf-2 {
-            bottom: 30px;
-            left: 20px;
-        }
-
-        .leaf-3 {
-            top: 50%;
-            right: 30px;
-        }
-
-        .fish-decoration {
-            position: absolute;
-            width: 30px;
-            height: 15px;
-            background-color: #90caf9;
-            border-radius: 50%;
-            transform: rotate(30deg);
-        }
-
-        .fish-1 {
-            bottom: 40px;
-            right: 40px;
-        }
-
-        .fish-2 {
-            top: 30px;
-            left: 50px;
-        }
+        /* ========== 목표 설정 모달 스타일 끝 ========== */
 
         /* 반응형 디자인 */
         @media (max-width: 768px) {
@@ -469,24 +612,15 @@
             content: "🍃";
             margin: 0 10px;
         }
-
-        .bell-icon {
-            display: inline-block;
-            margin-right: 5px;
-        }
     </style>
 </head>
 <body>
+<!-- HTML 본문은 기존과 동일하므로 생략합니다. -->
 <div class="container">
     <h1 class="page-title">내 숲의 일지</h1>
     <div class="mypage">
         <!-- 좌측 사이드바 -->
         <div class="sidebar">
-            <!-- 데코레이션 요소 -->
-            <div class="leaf-decoration leaf-1"></div>
-            <div class="leaf-decoration leaf-2"></div>
-
-            <!-- 프로필 섹션 -->
             <div class="profile">
                 <div class="profile-img-container">
                     <img class="profile-img" src="/api/placeholder/120/120" alt="프로필 이미지">
@@ -495,16 +629,12 @@
                 <p>🏝️ 입도일: 2023년 10월 1일</p>
                 <button class="edit-profile-btn">프로필 꾸미기</button>
             </div>
-
-            <!-- 최근 7일간 조회수 통계 -->
             <div class="stats-section">
                 <h3>🔍 최근 7일간 방문객 수</h3>
                 <div class="chart-container">
                     <canvas id="views-chart"></canvas>
                 </div>
             </div>
-
-            <!-- 최근 7일간 글 작성수 통계 -->
             <div class="stats-section">
                 <h3>✏️ 최근 7일간 글 작성수</h3>
                 <div class="chart-container">
@@ -515,34 +645,31 @@
 
         <!-- 메인 콘텐츠 -->
         <div class="main-content">
-            <!-- 데코레이션 요소 -->
-            <div class="fish-decoration fish-1"></div>
-            <div class="fish-decoration fish-2"></div>
-
-            <!-- 글 작성 목표치 진행 프로그래스바 -->
             <div class="content-section">
-                <h3>🎯 글 작성 목표</h3>
-                <div class="progress-container">
+                <div class="content-header">
+                    <h3>🎯 글 작성 목표</h3>
+                    <button class="goal-setting-btn">목표설정</button>
+                </div>
+                <div class="progress-container" id="monthly-progress">
                     <div class="progress-info">
                         <span>이번 달 목표: 30개</span>
                         <span>12/30 (40%)</span>
                     </div>
                     <div class="progress-bar">
-                        <div class="progress" style="width: 40%;"></div>
+                        <div class="progress" style="width: 0%;"></div>
                     </div>
                 </div>
-                <div class="progress-container">
+                <div class="progress-container" id="weekly-progress">
                     <div class="progress-info">
                         <span>이번 주 목표: 7개</span>
                         <span>3/7 (43%)</span>
                     </div>
                     <div class="progress-bar">
-                        <div class="progress" style="width: 43%;"></div>
+                        <div class="progress" style="width: 0%;"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- 오늘의 운세 -->
             <div class="content-section">
                 <h3>🔮 오늘의 운세</h3>
                 <div class="fortune">
@@ -551,14 +678,11 @@
                 </div>
             </div>
 
-            <!-- 최근 활동 -->
             <div class="content-section">
                 <h3>🏃‍♂️ 최근 활동</h3>
                 <div class="recent-activities">
                     <div class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-edit"></i>
-                        </div>
+                        <div class="activity-icon"><i class="fas fa-edit"></i></div>
                         <div class="activity-details">
                             <h4>새 글 작성</h4>
                             <p>"스프링부트와 JPA 시작하기" 글을 작성했습니다.</p>
@@ -566,34 +690,12 @@
                         <span class="activity-time">1시간 전</span>
                     </div>
                     <div class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-comment"></i>
-                        </div>
+                        <div class="activity-icon"><i class="fas fa-comment"></i></div>
                         <div class="activity-details">
                             <h4>댓글 작성</h4>
                             <p>"마리아DB 설치 방법" 글에 댓글을 남겼습니다.</p>
                         </div>
                         <span class="activity-time">3시간 전</span>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-heart"></i>
-                        </div>
-                        <div class="activity-details">
-                            <h4>좋아요</h4>
-                            <p>"JPA 연관관계 매핑" 글에 좋아요를 눌렀습니다.</p>
-                        </div>
-                        <span class="activity-time">어제</span>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-trophy"></i>
-                        </div>
-                        <div class="activity-details">
-                            <h4>업적 달성</h4>
-                            <p>"열정적인 블로거" 배지를 획득했습니다.</p>
-                        </div>
-                        <span class="activity-time">2일 전</span>
                     </div>
                 </div>
             </div>
@@ -601,205 +703,217 @@
     </div>
 </div>
 
+<!-- ========== 목표 설정 모달 HTML 시작 ========== -->
+<div class="modal-overlay" id="goal-modal">
+    <div class="modal-content">
+        <h2>🎯 목표 설정</h2>
+        <div class="goal-picker-container">
+            <div class="goal-picker">
+                <label for="monthly-goal-select">이번 달 목표</label>
+                <select id="monthly-goal-select"></select>
+            </div>
+            <div class="goal-picker">
+                <label for="weekly-goal-select">이번 주 목표</label>
+                <select id="weekly-goal-select"></select>
+            </div>
+        </div>
+        <div class="modal-buttons">
+            <button id="save-goal-btn" class="modal-btn save-btn">저장</button>
+            <button id="cancel-goal-btn" class="modal-btn cancel-btn">취소</button>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 <script>
-    // 페이지가 로드되면 차트 생성
     document.addEventListener('DOMContentLoaded', function() {
 
-        // 사용자 통계 데이터 가져오기
-        fetchUserStats();
+        // ========== 스크립트 수정 시작 ==========
 
-        // 프로필 수정 버튼 이벤트
-        document.querySelector('.edit-profile-btn').addEventListener('click', function() {
-            alert('🏝️ 프로필 꾸미기 메뉴가 열릴 예정입니다! 🌿');
-        });
-    });
+        // 전역으로 사용할 사용자 데이터 객체
+        let userProgress = {
+            monthly: { current: 0, goal: 30 },
+            weekly: { current: 0, goal: 7 }
+        };
 
+        // DOM 요소 가져오기
+        const goalSettingBtn = document.querySelector('.goal-setting-btn');
+        const goalModal = document.getElementById('goal-modal');
+        const cancelGoalBtn = document.getElementById('cancel-goal-btn');
+        const saveGoalBtn = document.getElementById('save-goal-btn');
+        const monthlySelect = document.getElementById('monthly-goal-select');
+        const weeklySelect = document.getElementById('weekly-goal-select');
 
-    function fetchUserStats() {
-
-        // 세션에서 사용자 정보 가져오기 (예: sessionStorage 사용)
-        const username = localStorage.getItem('username');
-        if (!username) {
-            window.location.href = '/login.html';
-            return;
+        // 드롭다운 옵션 채우기
+        for (let i = 1; i <= 100; i++) {
+            monthlySelect.appendChild(new Option(`${i}개`, i));
+        }
+        for (let i = 1; i <= 10; i++) {
+            weeklySelect.appendChild(new Option(`${i}개`, i));
         }
 
-        //서버에서 통계 데이터 받아옴
-        fetch('/api/user/stats', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Username': username // 로그인된 사용자 이름을 헤더에 포함
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`통계 데이터를 가져오는데 실패했습니다. 상태 코드: ${response.status}, 응답: ${response.text}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            // 차트 업데이트
-            updateViewsChart(data.viewStats);
-            updatePostsChart(data.postStats);
+        // 모달 열기/닫기 함수
+        const openModal = () => {
+            monthlySelect.value = userProgress.monthly.goal;
+            weeklySelect.value = userProgress.weekly.goal;
+            goalModal.classList.add('show');
+        };
+        const closeModal = () => goalModal.classList.remove('show');
 
-            // 목표 진행률 업데이트
-            updateGoalProgress(data.goalProgress);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            // 오류 발생 시 기본 데이터로 차트 생성 (개발/테스트용)
-            createDefaultCharts();
+        // UI 업데이트 함수
+        const updateGoalProgressUI = () => {
+            const updateContainer = (type, data) => {
+                const container = document.getElementById(`${type}-progress`);
+                const infoElement = container.querySelector('.progress-info');
+                const barElement = container.querySelector('.progress');
+
+                const { current, goal } = data;
+                const percentage = goal > 0 ? Math.round((current / goal) * 100) : 0;
+                const typeText = type === 'monthly' ? '이번 달' : '이번 주';
+
+                infoElement.innerHTML = `<span>${typeText} 목표: ${goal}개</span> <span>${current}/${goal} (${percentage}%)</span>`;
+                barElement.style.width = `${percentage}%`;
+            };
+            updateContainer('monthly', userProgress.monthly);
+            updateContainer('weekly', userProgress.weekly);
+        };
+
+        // '저장' 버튼 클릭 시 서버로 데이터 전송하는 함수
+        const saveGoalsToServer = async () => {
+            const newMonthlyGoal = parseInt(monthlySelect.value);
+            const newWeeklyGoal = parseInt(weeklySelect.value);
+
+            // 실제 앱에서는 로그인 시 저장된 사용자 이름을 사용합니다.
+            // 여기서는 요청하신 대로 'user'를 사용합니다.
+            const username = localStorage.getItem('username') || 'user';
+
+            const goalData = {
+                monthlyGoal: newMonthlyGoal,
+                weeklyGoal: newWeeklyGoal
+            };
+
+            try {
+                const response = await fetch('http://localhost:8080/api/user/stats/goals', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Username': username
+                    },
+                    body: JSON.stringify(goalData)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || '서버 응답이 올바르지 않습니다.');
+                }
+
+                // 성공 시, 로컬 데이터 업데이트 및 UI 새로고침
+                userProgress.monthly.goal = newMonthlyGoal;
+                userProgress.weekly.goal = newWeeklyGoal;
+                updateGoalProgressUI();
+
+                alert('목표가 성공적으로 저장되었습니다!');
+                closeModal();
+
+            } catch (error) {
+                console.error('목표 저장 실패:', error);
+                alert(`오류가 발생했습니다: ${error.message}`);
+            }
+        };
+
+        // 페이지 로드 시 서버에서 초기 데이터를 가져오는 함수
+        const fetchInitialData = async () => {
+            const username = localStorage.getItem('username') || 'user';
+
+            try {
+                const response = await fetch('http://localhost:8080/api/user/stats', {
+                    method: 'GET',
+                    headers: { 'Username': username }
+                });
+
+                if (!response.ok) throw new Error('데이터를 불러오는 데 실패했습니다.');
+
+                const stats = await response.json();
+
+                // 전역 userProgress 객체를 서버 데이터로 업데이트
+                userProgress.monthly.current = stats.goalProgress.monthlyPosts;
+                userProgress.monthly.goal = stats.goalProgress.monthlyGoal;
+                userProgress.weekly.current = stats.goalProgress.weeklyPosts;
+                userProgress.weekly.goal = stats.goalProgress.weeklyGoal;
+
+                // 차트 데이터 업데이트
+                updateChart('views-chart', stats.viewStats.map(s => s.date), stats.viewStats.map(s => s.views), '방문객 수', '#81c784');
+                updateChart('posts-chart', stats.postStats.map(s => s.date), stats.postStats.map(s => s.posts), '글 작성수', '#ffcc80', 5);
+
+            } catch (error) {
+                console.error('초기 데이터 로드 실패:', error);
+                alert('서버에서 데이터를 불러오는 데 실패했습니다. 기본값으로 표시됩니다.');
+                // 에러 발생 시 기본 차트라도 그리기
+                createDefaultCharts();
+            } finally {
+                // 성공하든 실패하든 UI는 한 번 그려줌
+                updateGoalProgressUI();
+            }
+        };
+
+        // 이벤트 리스너 연결
+        goalSettingBtn.addEventListener('click', openModal);
+        cancelGoalBtn.addEventListener('click', closeModal);
+        saveGoalBtn.addEventListener('click', saveGoalsToServer);
+        goalModal.addEventListener('click', (event) => {
+            if (event.target === goalModal) closeModal();
+        });
+
+        // 페이지가 로드되면 서버에서 데이터를 가져와서 화면을 그림
+        fetchInitialData();
+
+        // ========== 스크립트 수정 끝 ==========
+    });
+
+    // 차트 관련 함수 (재사용성을 위해 리팩토링)
+    let chartInstances = {}; // 차트 객체를 저장하여 재사용
+    function updateChart(canvasId, labels, data, label, color, maxTick) {
+        if (chartInstances[canvasId]) {
+            chartInstances[canvasId].destroy(); // 기존 차트 파괴
+        }
+        const ctx = document.getElementById(canvasId).getContext('2d');
+        chartInstances[canvasId] = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: label,
+                    data: data,
+                    backgroundColor: color,
+                    borderColor: color,
+                    borderWidth: 2,
+                    borderRadius: 8
+                }]
+            },
+            options: chartOptions(maxTick)
         });
     }
 
-function updateViewsChart(viewStats) {
-    const labels = viewStats.map(item => item.date);
-    const data = viewStats.map(item => item.views);
-
-    const viewsCtx = document.getElementById('views-chart').getContext('2d');
-    const viewsChart = new Chart(viewsCtx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: '방문객 수',
-                data: data,
-                backgroundColor: [
-                    '#81c784', '#66bb6a', '#4caf50',
-                    '#43a047', '#388e3c', '#2e7d32', '#1b5e20'
-                ],
-                borderColor: '#1b5e20',
-                borderWidth: 2,
-                borderRadius: 8
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
+    function chartOptions(max) {
+        const options = {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
             scales: {
-                y: {
-                    beginAtZero: true,
-                    grid: {
-                        display: true,
-                        color: '#e8f5e9'
-                    },
-                    ticks: {
-                        font: {
-                            family: 'Gaegu',
-                            size: 14
-                        },
-                        color: '#33691e'
-                    }
-                },
-                x: {
-                    grid: {
-                        display: false
-                    },
-                    ticks: {
-                        font: {
-                            family: 'Gaegu',
-                            size: 14
-                        },
-                        color: '#33691e'
-                    }
-                }
+                y: { beginAtZero: true, grid: { display: false }, ticks: { font: { family: 'Gaegu', size: 14 } } },
+                x: { grid: { display: false }, ticks: { font: { family: 'Gaegu', size: 14 } } }
             }
+        };
+        if (max) {
+            options.scales.y.max = max;
+            options.scales.y.ticks.stepSize = 1;
         }
-    });
-}
+        return options;
+    }
 
-function updatePostsChart(postStats) {
-    const labels = postStats.map(item => item.date);
-    const data = postStats.map(item => item.posts);
-
-    const postsCtx = document.getElementById('posts-chart').getContext('2d');
-    const postsChart = new Chart(postsCtx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: '글 작성수',
-                data: data,
-                backgroundColor: [
-                    '#ffcc80', '#ffb74d', '#ffa726',
-                    '#ff9800', '#fb8c00', '#f57c00', '#ef6c00'
-                ],
-                borderColor: '#e65100',
-                borderWidth: 2,
-                borderRadius: 8
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 5,
-                    ticks: {
-                        stepSize: 1,
-                        font: {
-                            family: 'Gaegu',
-                            size: 14
-                        },
-                        color: '#e65100'
-                    },
-                    grid: {
-                        display: true,
-                        color: '#fff3e0'
-                    }
-                },
-                x: {
-                    grid: {
-                        display: false
-                    },
-                    ticks: {
-                        font: {
-                            family: 'Gaegu',
-                            size: 14
-                        },
-                        color: '#e65100'
-                    }
-                }
-            }
-        }
-    });
-}
-
-function updateGoalProgress(goalProgress) {
-    // 월간 목표 업데이트
-    const monthlyProgressElement = document.querySelector('.progress-container:nth-child(1)');
-    const monthlyInfoElement = monthlyProgressElement.querySelector('.progress-info');
-    const monthlyProgressBar = monthlyProgressElement.querySelector('.progress');
-
-    monthlyInfoElement.innerHTML =
-        `<span>이번 달 목표: ${goalProgress.monthlyGoal}개</span>
-         <span>${goalProgress.monthlyPosts}/${goalProgress.monthlyGoal} (${goalProgress.monthlyPercentage}%)</span>`;
-    monthlyProgressBar.style.width = `${goalProgress.monthlyPercentage}%`;
-
-    // 주간 목표 업데이트
-    const weeklyProgressElement = document.querySelector('.progress-container:nth-child(2)');
-    const weeklyInfoElement = weeklyProgressElement.querySelector('.progress-info');
-    const weeklyProgressBar = weeklyProgressElement.querySelector('.progress');
-
-    weeklyInfoElement.innerHTML =
-        `<span>이번 주 목표: ${goalProgress.weeklyGoal}개</span>
-         <span>${goalProgress.weeklyPosts}/${goalProgress.weeklyGoal} (${goalProgress.weeklyPercentage}%)</span>`;
-    weeklyProgressBar.style.width = `${goalProgress.weeklyPercentage}%`;
-}
-
+    function createDefaultCharts() {
+        updateChart('views-chart', ['-6', '-5', '-4', '-3', '-2', '-1', '오늘'], [15, 22, 18, 25, 30, 28, 35], '방문객 수', '#81c784');
+        updateChart('posts-chart', ['-6', '-5', '-4', '-3', '-2', '-1', '오늘'], [1, 0, 2, 1, 0, 1, 0], '글 작성수', '#ffcc80', 5);
+    }
 </script>
 </body>
 </html>

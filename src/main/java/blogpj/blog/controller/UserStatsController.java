@@ -4,6 +4,7 @@ import blogpj.blog.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import lombok.Data;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,5 +37,32 @@ public class UserStatsController {
         stats.put("goalProgress", goalProgress);
 
         return ResponseEntity.ok(stats);
+    }
+    /**
+     * 사용자의 월간/주간 목표 게시물 수를 업데이트합니다.
+     * @param username 사용자 식별을 위한 이름
+     * @param request 업데이트할 목표치가 담긴 DTO
+     * @return 성공 메시지
+     */
+    @PatchMapping("/goals")
+    public ResponseEntity<Map<String, String>> updateUserGoals(
+            @RequestHeader("Username") String username,
+            @RequestBody GoalUpdateRequest request) {
+
+        userService.updateUserGoals(username, request.getMonthlyGoal(), request.getWeeklyGoal());
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "목표가 성공적으로 업데이트되었습니다.");
+
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * 목표 업데이트 요청을 위한 DTO(Data Transfer Object)
+     */
+    @Data
+    public static class GoalUpdateRequest {
+        private Integer monthlyGoal;
+        private Integer weeklyGoal;
     }
 }

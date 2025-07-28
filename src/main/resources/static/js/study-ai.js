@@ -67,6 +67,8 @@ function submitAnswer() {
       document.getElementById('resultScreen').style.display = 'block';
 
       document.getElementById('balloon-box').classList.add('result-mode');
+
+      document.getElementById('nextButton').style.display = 'none';
     });
 }
 

@@ -38,6 +38,9 @@ body {
   z-index: 25;
   position: relative;
   text-align: left;
+  word-break: keep-all;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 .choices button.selected {
@@ -65,17 +68,20 @@ body {
 }
 
 #nextButton {
-  margin-top: 20px;
-  padding: 12px 30px;
+  position: absolute;
+  top: 55px;
+  right: -11px;
+  z-index: 9999;
+  padding: 10px 18px;
   font-size: 16px;
-  border-radius: 10px;
-  border: none;
-  background-color: #28a745;
-  color: white;
+  border-radius: 12px;
+  background-color: #4fc3f7;
+  color: black;
   cursor: pointer;
-}
-
-#nextButton {
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s;
+  pointer-events: auto;
   display: none;
 }
 
@@ -187,10 +193,10 @@ body {
   margin-top: 10px;  /* 좀 더 간격 확보 */
   padding: 0 10px;
   max-width: 500px;
-  font-size: 13px;
+  font-size: 12px;
   text-align: center;
   word-break: keep-all;
-  line-height: 1.4;
+  line-height: 1.3;
 }
 
 #resultText, #explanationText {
@@ -224,7 +230,7 @@ body {
 
 /* 말풍선 안 텍스트 */
 .dialogue-text {
-    position: absolute;
+    position: fixed;
     top: 77%;
     left: 24%;
     width: 90%;
@@ -236,6 +242,8 @@ body {
     display: block;
     line-height: 1.4;
     word-break: keep-all;
+    white-space: normal;
+    overflow-wrap: break-word;
 }
 
 .character-name {

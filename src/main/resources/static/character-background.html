@@ -39,7 +39,8 @@
 
 <script>
     const dialogueEl = document.getElementById('dialogue');
-    const text = `안녕하세요, <span class="username">USER</span>님!<br>무엇을 도와드릴까요?`;
+    const nickname = localStorage.getItem("nickname") || "USER";
+    const text = `안녕하세요, <span class="username">${nickname}</span>님!<br>무엇을 도와드릴까요?`;
 
     let index = 0;
     let isTag = false;  // 태그 처리 여부

@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.temporal.TemporalAdjusters;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -136,27 +138,89 @@ public class UserService {
         return result;
     }
 
-    // 이번 달과 이번 주의 게시글 작성 목표 진행률
+//    // 이번 달과 이번 주의 게시글 작성 목표 진행률
+//    public Map<String, Object> getPostGoalProgress(String username) {
+//        LocalDateTime startOfMonth = LocalDate.now().withDayOfMonth(1).atStartOfDay();
+//        LocalDateTime startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY).atStartOfDay();
+//
+//        int monthlyPosts = boardRepository.countByUserUsernameAndCreateTimeAfter(username, startOfMonth);
+//        int weeklyPosts = boardRepository.countByUserUsernameAndCreateTimeAfter(username, startOfWeek);
+//
+//        // 목표치 (실제로는 사용자 설정값을 사용할 수 있음)
+//        int monthlyGoal = 30;
+//        int weeklyGoal = 7;
+//
+//        Map<String, Object> result = new HashMap<>();
+//        result.put("monthlyPosts", monthlyPosts);
+//        result.put("monthlyGoal", monthlyGoal);
+//        result.put("monthlyPercentage", Math.min(100, (int)(monthlyPosts * 100.0 / monthlyGoal)));
+//
+//        result.put("weeklyPosts", weeklyPosts);
+//        result.put("weeklyGoal", weeklyGoal);
+//        result.put("weeklyPercentage", Math.min(100, (int)(weeklyPosts * 100.0 / weeklyGoal)));
+//
+//        return result;
+//    }
+
+    private User findUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
+    }
+    
+    // ========== 수정된 메서드 시작 ==========
+    /**
+     * 이번 달과 이번 주의 게시글 작성 목표 진행률을 조회합니다.
+     * DB에 저장된 사용자의 실제 목표치를 기반으로 계산합니다.
+     */
     public Map<String, Object> getPostGoalProgress(String username) {
-        LocalDateTime startOfMonth = LocalDate.now().withDayOfMonth(1).atStartOfDay();
+        // 사용자 정보 조회
+        User user = findUserByUsername(username);
+
+        // 기간별 작성 게시물 수 계산
+        LocalDateTime startOfMonth = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()).atStartOfDay();
         LocalDateTime startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY).atStartOfDay();
 
         int monthlyPosts = boardRepository.countByUserUsernameAndCreateTimeAfter(username, startOfMonth);
         int weeklyPosts = boardRepository.countByUserUsernameAndCreateTimeAfter(username, startOfWeek);
 
-        // 목표치 (실제로는 사용자 설정값을 사용할 수 있음)
-        int monthlyGoal = 30;
-        int weeklyGoal = 7;
+        // DB에서 실제 목표치 가져오기
+        int monthlyGoal = user.getMonthlyGoal();
+        int weeklyGoal = user.getWeeklyGoal();
 
+        // 결과 생성
         Map<String, Object> result = new HashMap<>();
         result.put("monthlyPosts", monthlyPosts);
         result.put("monthlyGoal", monthlyGoal);
-        result.put("monthlyPercentage", Math.min(100, (int)(monthlyPosts * 100.0 / monthlyGoal)));
+        result.put("monthlyPercentage", (monthlyGoal > 0) ? Math.min(100, (int)Math.round(monthlyPosts * 100.0 / monthlyGoal)) : 0);
 
         result.put("weeklyPosts", weeklyPosts);
         result.put("weeklyGoal", weeklyGoal);
-        result.put("weeklyPercentage", Math.min(100, (int)(weeklyPosts * 100.0 / weeklyGoal)));
+        result.put("weeklyPercentage", (weeklyGoal > 0) ? Math.min(100, (int)Math.round(weeklyPosts * 100.0 / weeklyGoal)) : 0);
 
         return result;
     }
+    // ========== 수정된 메서드 끝 ==========
+
+
+    // ========== 추가된 메서드 시작 ==========
+    /**
+     * 사용자의 월간/주간 목표 게시물 수를 업데이트합니다.
+     * @param username 업데이트할 사용자 이름
+     * @param newMonthlyGoal 새로운 월간 목표
+     * @param newWeeklyGoal 새로운 주간 목표
+     */
+    @Transactional // 쓰기 작업이므로 클래스 레벨의 readOnly 설정을 오버라이드합니다.
+    public void updateUserGoals(String username, Integer newMonthlyGoal, Integer newWeeklyGoal) {
+        User user = findUserByUsername(username);
+
+        // 요청된 값이 null이 아닐 경우에만 목표를 업데이트합니다.
+        if (newMonthlyGoal != null) {
+            user.setMonthlyGoal(newMonthlyGoal);
+        }
+        if (newWeeklyGoal != null) {
+            user.setWeeklyGoal(newWeeklyGoal);
+        }
+        // @Transactional에 의해 메서드 종료 시 변경된 user 엔티티가 자동으로 DB에 반영됩니다.
+    }
+    // ========== 추가된 메서드 끝 ==========
 }

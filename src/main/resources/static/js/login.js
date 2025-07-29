@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const userData = await response.json();
                 // Store user information in localStorage
                 localStorage.setItem('username', userData.username);
+                localStorage.setItem('nickname', userData.nickname);
 
                 // Redirect to board list
                 window.location.href = '/home';

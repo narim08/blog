@@ -689,7 +689,7 @@
                     <img id="profile-image" class="profile-img" src="/images/default-profile.png" alt="프로필 이미지">
                 </div>
                 <h2 id="nickname-area">🌿 숲지기님 🌿</h2>
-                <p>🏝️ 입도일: 2023년 10월 1일</p>
+                <p id="join-date">🏝️ 입도일: 2023년 10월 1일</p>
                 <button class="edit-profile-btn">프로필 꾸미기</button>
                 <input type="file" id="profileImageInput" accept="image/*" style="display: none;">
             </div>
@@ -834,24 +834,27 @@
     let chartInstances = {};
     let isServerAvailable = false;
 
-    // ========== 앱 초기화 ==========
+    // ========== 통합된 앱 초기화 ==========
     document.addEventListener('DOMContentLoaded', function() {
         console.log('🌟 마이페이지 초기화 시작...');
 
-        // 1. 기본 설정
+        // 1. 기본 설정 (닉네임 설정)
         initializeBasicSettings();
 
-        // 2. 이벤트 리스너 설정
+        // 2. 프로필 정보 로드 (입도일, 프로필 이미지 포함)
+        loadUserProfile();
+
+        // 3. 이벤트 리스너 설정
         setupEventListeners();
 
-        // 3. 목표 설정 모달 초기화
+        // 4. 목표 설정 모달 초기화
         initializeGoalModal();
 
-        // 4. 기본 차트 먼저 표시 (로딩 상태 개선)
+        // 5. 기본 차트 먼저 표시 (로딩 상태 개선)
         createDefaultCharts();
         updateGoalProgressUI();
 
-        // 5. 서버 데이터 시도
+        // 6. 서버 데이터 시도
         setTimeout(() => {
             fetchUserStats();
         }, 100);
@@ -866,6 +869,58 @@
         document.getElementById("nickname-area").innerText = `🌿 ${nickname}님 🌿`;
 
         console.log(`✅ 닉네임 설정 완료: ${nickname}`);
+    }
+
+    // ========== 사용자 프로필 정보 로드 (통합) ==========
+    async function loadUserProfile() {
+        console.log('👤 사용자 프로필 정보 로드...');
+
+        const username = localStorage.getItem("username");
+        if (!username) {
+            console.log('❌ 사용자명이 없음, 로그인 페이지로 리다이렉트');
+            window.location.href = '/login.html';
+            return;
+        }
+
+        try {
+            console.log(`🚀 프로필 정보 요청: ${username}`);
+
+            const response = await fetch(`/api/users/profile?username=${username}`);
+
+            if (!response.ok) {
+                throw new Error(`프로필 정보 가져오기 실패: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('✅ 프로필 정보 수신:', data);
+
+            // 프로필 이미지 업데이트
+            const profileImg = document.getElementById('profile-image');
+            if (profileImg && data.profileImagePath) {
+                profileImg.src = data.profileImagePath;
+                console.log(`📸 프로필 이미지 업데이트: ${data.profileImagePath}`);
+            }
+
+            // 입도일 업데이트
+            const joinDateElem = document.getElementById('join-date');
+            if (joinDateElem && data.joinDate) {
+                joinDateElem.innerText = `🏝️ 입도일: ${formatDate(data.joinDate)}`;
+                console.log(`📅 입도일 업데이트: ${data.joinDate}`);
+            }
+
+        } catch (error) {
+            console.error('❌ 프로필 정보 로드 실패:', error);
+            // 오류가 발생해도 기본값으로 계속 진행
+        }
+    }
+
+    // ========== 날짜 포맷 함수 ==========
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        return `${year}년 ${month}월 ${day}일`;
     }
 
     // ========== 이벤트 리스너 설정 ==========
@@ -909,7 +964,7 @@
         console.log('✅ 이벤트 리스너 설정 완료');
     }
 
-    // ========== 프로필 이미지 업로드 ==========
+    // ========== 프로필 이미지 업로드 (통합 버전) ==========
     async function handleProfileImageUpload(event) {
         console.log('📸 프로필 이미지 업로드 시작...');
 
@@ -923,6 +978,12 @@
 
         const formData = new FormData();
         formData.append("image", file);
+
+        // 두 번째 코드의 username 추가 방식 통합
+        const username = localStorage.getItem("username");
+        if (username) {
+            formData.append("username", username);
+        }
 
         try {
             console.log('🚀 서버에 이미지 업로드 중...');
@@ -939,11 +1000,11 @@
                 alert("🌿 프로필 이미지가 변경되었어요!");
             } else {
                 console.error(`❌ 업로드 실패: ${response.status} ${response.statusText}`);
-                alert("😅 이미지 업로드에 실패했어요. 다시 시도해주세요!");
+                alert("😅 업로드 실패(로그아웃 상태 또는 파일 크기 제한)");
             }
         } catch (error) {
             console.error('❌ 프로필 이미지 업로드 오류:', error);
-            alert("📡 서버 연결에 문제가 있어요. 잠시 후 다시 시도해주세요!");
+            alert("📡 오류 발생(로그아웃 상태 또는 파일 크기 제한)");
         }
     }
 
@@ -1062,7 +1123,7 @@
         }
     }
 
-    // ========== 서버 데이터 가져오기 ==========
+    // ========== 서버 데이터 가져오기 (통합 버전) ==========
     async function fetchUserStats() {
         console.log('📊 서버에서 사용자 통계 데이터 요청...');
 
@@ -1103,7 +1164,7 @@
                 updatePostsChart(data.postStats);
             }
 
-            // UI 업데이트
+            // UI 업데이트 (두 방식 통합)
             updateGoalProgressUI();
 
             console.log('🎉 모든 데이터 업데이트 완료');
@@ -1114,17 +1175,18 @@
 
             // 서버 연결 실패해도 기본 차트는 이미 표시되어 있음
             console.log('📊 기본 차트로 계속 진행');
+            createDefaultCharts();
         }
     }
 
-    // ========== 차트 생성 및 업데이트 ==========
+    // ========== 차트 생성 및 업데이트 (통합 버전) ==========
     function updateViewsChart(viewStats) {
         console.log('📈 방문객 수 차트 업데이트:', viewStats);
 
         const labels = viewStats.map(item => item.date);
         const data = viewStats.map(item => item.views);
 
-        // 기존 차트 제거
+        // 기존 차트 제거 (충돌 방지)
         if (chartInstances['views-chart']) {
             chartInstances['views-chart'].destroy();
         }
@@ -1162,14 +1224,17 @@
                     y: {
                         beginAtZero: true,
                         ticks: {
-                            font: { family: 'Gaegu', size: 12 },
+                            font: { family: 'Gaegu', size: 14 },
                             color: '#33691e'
                         },
-                        grid: { color: '#e8f5e9' }
+                        grid: {
+                            display: true,
+                            color: '#e8f5e9'
+                        }
                     },
                     x: {
                         ticks: {
-                            font: { family: 'Gaegu', size: 12 },
+                            font: { family: 'Gaegu', size: 14 },
                             color: '#33691e'
                         },
                         grid: { display: false }
@@ -1187,7 +1252,7 @@
         const labels = postStats.map(item => item.date);
         const data = postStats.map(item => item.posts);
 
-        // 기존 차트 제거
+        // 기존 차트 제거 (충돌 방지)
         if (chartInstances['posts-chart']) {
             chartInstances['posts-chart'].destroy();
         }
@@ -1227,14 +1292,17 @@
                         max: 5,
                         ticks: {
                             stepSize: 1,
-                            font: { family: 'Gaegu', size: 12 },
+                            font: { family: 'Gaegu', size: 14 },
                             color: '#e65100'
                         },
-                        grid: { color: '#fff3e0' }
+                        grid: {
+                            display: true,
+                            color: '#fff3e0'
+                        }
                     },
                     x: {
                         ticks: {
-                            font: { family: 'Gaegu', size: 12 },
+                            font: { family: 'Gaegu', size: 14 },
                             color: '#e65100'
                         },
                         grid: { display: false }
@@ -1277,7 +1345,7 @@
         console.log('✅ 기본 차트 생성 완료');
     }
 
-    // ========== 목표 진행률 UI 업데이트 ==========
+    // ========== 목표 진행률 UI 업데이트 (통합 버전) ==========
     function updateGoalProgressUI() {
         console.log('🎯 목표 진행률 UI 업데이트...', userProgress);
 
@@ -1341,7 +1409,7 @@
         });
     };
 
-    console.log('🎉 마이페이지 스크립트 로드 완료! 디버깅하려면 debugMyPage() 함수를 호출하세요.');
+    console.log('🎉 통합된 마이페이지 스크립트 로드 완료! 디버깅하려면 debugMyPage() 함수를 호출하세요.');
 
 </script>
 </body>

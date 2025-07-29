@@ -1,5 +1,7 @@
 package blogpj.blog.controller;
 
+import blogpj.blog.domain.User;
+import blogpj.blog.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -7,33 +9,40 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/profile")
 public class ProfileImageController {
 
-    // 실제 파일 저장 경로 (윈도우 기준 외부 폴더)
     private final String uploadDir = "C:/profile-images";
 
+    private final UserRepository userRepository;
+
+    public ProfileImageController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadProfileImage(@RequestParam("image") MultipartFile file) {
+    public ResponseEntity<?> uploadProfileImage(@RequestParam("image") MultipartFile file,
+                                                @RequestParam("username") String username) {
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("파일이 비어 있습니다.");
         }
 
-        // 폴더가 없으면 생성
         File folder = new File(uploadDir);
         if (!folder.exists()) {
             folder.mkdirs();
         }
 
-        // 파일명 설정
         String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
-        String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-        String newFilename = UUID.randomUUID() + extension;
+        String extension = "";
+        int dotIndex = originalFilename.lastIndexOf(".");
+        if(dotIndex > -1) {
+            extension = originalFilename.substring(dotIndex);
+        }
 
-        // 저장
+        String newFilename = username + extension;
+
         File destination = new File(uploadDir, newFilename);
         try {
             file.transferTo(destination);
@@ -41,7 +50,11 @@ public class ProfileImageController {
             return ResponseEntity.internalServerError().body("파일 저장 실패: " + e.getMessage());
         }
 
-        // 브라우저에서 접근 가능한 경로
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("사용자 없음"));
+        user.setProfileImagePath("/profile-images/" + newFilename);
+        userRepository.save(user);
+
         String imageUrl = "/profile-images/" + newFilename;
         return ResponseEntity.ok().body(imageUrl);
     }

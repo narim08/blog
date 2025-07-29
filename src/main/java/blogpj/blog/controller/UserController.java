@@ -1,10 +1,10 @@
 package blogpj.blog.controller;
 
-import blogpj.blog.dto.UserRegisterRequestDTO;
-import blogpj.blog.dto.UserRegisterResponseDTO;
+import blogpj.blog.domain.User;
 import blogpj.blog.dto.UserLoginRequestDTO;
 import blogpj.blog.dto.UserLoginResponseDTO;
-import blogpj.blog.domain.User;
+import blogpj.blog.dto.UserRegisterRequestDTO;
+import blogpj.blog.dto.UserRegisterResponseDTO;
 import blogpj.blog.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,17 +25,13 @@ public class UserController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    /**
-     * 회원가입 API
-     */
+    // 회원가입
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody UserRegisterRequestDTO request) {
-        // 이미 존재하는 유저인지 확인
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
             return ResponseEntity.badRequest().body(Map.of("message", "이미 존재하는 사용자입니다."));
         }
 
-        // 비밀번호 암호화 후 저장
         User user = new User();
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -43,10 +39,10 @@ public class UserController {
         user.setNickname(request.getNickname());
         user.setCreateTime(LocalDateTime.now());
         user.setUpdateTime(LocalDateTime.now());
+        user.setJoinDate(LocalDateTime.now());  // 가입일 설정
 
         userRepository.save(user);
 
-        // 응답 DTO 생성
         UserRegisterResponseDTO responseDTO = new UserRegisterResponseDTO(
                 user.getId(),
                 user.getUsername(),
@@ -57,9 +53,7 @@ public class UserController {
         return ResponseEntity.ok(responseDTO);
     }
 
-    /**
-     * 로그인 API
-     */
+    // 로그인
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody UserLoginRequestDTO request) {
         Optional<User> userOptional = userRepository.findByUsername(request.getUsername());
@@ -70,12 +64,10 @@ public class UserController {
 
         User user = userOptional.get();
 
-        // 비밀번호 검증
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             return ResponseEntity.badRequest().body(Map.of("message", "비밀번호가 일치하지 않습니다."));
         }
 
-        // 로그인 성공 응답 DTO 반환
         UserLoginResponseDTO responseDTO = new UserLoginResponseDTO(
                 user.getUsername(),
                 user.getNickname()
@@ -83,6 +75,21 @@ public class UserController {
 
         return ResponseEntity.ok(responseDTO);
     }
+
+    // 프로필 정보 가져오기 (닉네임, 이미지 경로, 입도일)
+    @GetMapping("/profile")
+    public ResponseEntity<?> getUserProfile(@RequestParam String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("사용자 없음"));
+
+        String profileImage = user.getProfileImagePath() != null ? user.getProfileImagePath() : "/images/default-profile.png";
+
+        Map<String, Object> response = Map.of(
+                "nickname", user.getNickname(),
+                "profileImagePath", profileImage,
+                "joinDate", user.getJoinDate()
+        );
+
+        return ResponseEntity.ok(response);
+    }
 }
-
-

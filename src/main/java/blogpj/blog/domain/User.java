@@ -38,6 +38,12 @@ public class User {
     @Column(nullable = false)
     private LocalDateTime updateTime;
 
+    @Column(name = "join_date")
+    private LocalDateTime joinDate;
+
+    @Column(name = "profile_image_path")
+    private String profileImagePath;
+
     // One-to-Many relationship with Board
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Board> boards = new ArrayList<>();

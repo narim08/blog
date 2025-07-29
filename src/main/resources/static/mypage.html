@@ -492,7 +492,7 @@
                     <img id="profile-image" class="profile-img" src="/images/default-profile.png" alt="프로필 이미지">
                 </div>
                 <h2 id="nickname-area">🌿 숲지기님 🌿</h2>
-                <p>🏝️ 입도일: 2023년 10월 1일</p>
+                <p id="join-date">🏝️ 입도일: </p>
                 <button class="edit-profile-btn">프로필 꾸미기</button>
                 <input type="file" id="profileImageInput" accept="image/*" style="display: none;">
             </div>
@@ -612,8 +612,30 @@
             document.getElementById("nickname-area").innerText = `🌿 ${nickname}님 🌿`;
         }
 
-        // 사용자 통계 가져오기
-        fetchUserStats();
+        // 입도일 표시
+        const username = localStorage.getItem("username");
+        if (username) {
+            fetch(`/api/users/profile?username=${username}`)
+                .then(res => {
+                    if (!res.ok) throw new Error("프로필 정보 가져오기 실패");
+                    return res.json();
+                })
+                .then(data => {
+                    // 프로필 이미지 유지
+                    const profileImg = document.getElementById('profile-image');
+                    if (profileImg && data.profileImagePath) {
+                        profileImg.src = data.profileImagePath;
+                    }
+                    // 입도일 표시
+                    const joinDateElem = document.getElementById('join-date');
+                    if (joinDateElem && data.joinDate) {
+                        joinDateElem.innerText = `🏝️ 입도일: ${formatDate(data.joinDate)}`;
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                });
+        }
 
         // 프로필 꾸미기 버튼 누르면 파일 선택 창 열림
         document.querySelector('.edit-profile-btn').addEventListener('click', function () {
@@ -628,6 +650,9 @@
             const formData = new FormData();
             formData.append("image", file);
 
+            const username = localStorage.getItem("username");  // 유저네임 불러오기
+            formData.append("username", username);
+
             try {
                 const response = await fetch('/api/profile/upload', {
                     method: 'POST',
@@ -635,17 +660,26 @@
                 });
 
                 if (response.ok) {
-                    const imageUrl = await response.text();  // 문자열로 받음
+                    const imageUrl = await response.text();
                     document.getElementById('profile-image').src = imageUrl;
-                    alert("🌿 이미지가 변경되었어요!");
+                    alert("이미지가 변경되었어요!");
                 } else {
-                    alert("업로드 실패 🥲");
+                    alert("업로드 실패(로그아웃 상태 또는 파일 크기 제한)");
                 }
             } catch (err) {
                 console.error(err);
-                alert("오류 발생");
+                alert("오류 발생(로그아웃 상태 또는 파일 크기 제한)");
             }
         });
+
+        // 날짜 포맷 함수
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const day = date.getDate().toString().padStart(2, '0');
+            return `${year}년 ${month}월 ${day}일`;
+        }
     });
 
 function fetchUserStats() {

@@ -14,19 +14,14 @@
             font-family: 'CuteFont', 'Noto Sans KR', Arial, sans-serif;
         }
 
-        body
-        {
-         /*background-color: #e8f5e9;*/
-        color: #5a3e2b;
-        background-image: url('/images/background.jpg');
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-position: center;
-
+        body {
+            color: #5a3e2b;
+            background-image: url('/images/background.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
         }
-
-
 
         .container {
             max-width: 1200px;
@@ -219,7 +214,7 @@
             position: relative;
         }
 
-        .content-section h3 {
+        .content-section > h3 {
             color: #0277bd;
             font-size: 1.5rem;
             margin-bottom: 20px;
@@ -228,7 +223,7 @@
             display: inline-block;
         }
 
-        .content-section h3:after {
+        .content-section > h3:after {
             content: "";
             position: absolute;
             bottom: -5px;
@@ -237,6 +232,57 @@
             height: 3px;
             background-color: #4fc3f7;
             border-radius: 3px;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .content-header h3 {
+            margin-bottom: 0;
+            text-align: left;
+            display: block;
+            position: relative;
+            color: #0277bd;
+            font-size: 1.5rem;
+        }
+
+        .content-header h3:after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #4fc3f7;
+            border-radius: 3px;
+        }
+
+        .goal-setting-btn {
+            background-color: #81d4fa;
+            color: #01579b;
+            border: 3px solid #4fc3f7;
+            padding: 8px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            font-weight: bold;
+            box-shadow: 0 4px 0 #0277bd;
+            flex-shrink: 0;
+        }
+
+        .goal-setting-btn:hover {
+            background-color: #4fc3f7;
+            transform: translateY(-2px);
+        }
+
+        .goal-setting-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #0277bd;
         }
 
         .progress-container {
@@ -271,6 +317,7 @@
             border-radius: 20px;
             position: relative;
             overflow: hidden;
+            transition: width 0.5s ease-in-out;
         }
 
         .progress:after {
@@ -399,6 +446,140 @@
             border: 2px solid #81d4fa;
         }
 
+        /* ========== 목표 설정 모달 스타일 시작 ========== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(90, 62, 43, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: #fffde7;
+            padding: 30px;
+            border-radius: 20px;
+            border: 5px solid #fff176;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            position: relative;
+            animation: modal-pop 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        @keyframes modal-pop {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-content h2 {
+            color: #5a3e2b;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+
+        .goal-picker-container {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .goal-picker {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .goal-picker label {
+            font-size: 1.2rem;
+            color: #6d4c41;
+            font-weight: bold;
+        }
+
+        .goal-picker select {
+            font-family: 'Gaegu', sans-serif;
+            font-size: 1.1rem;
+            padding: 10px;
+            border-radius: 15px;
+            border: 3px solid #a5d6a7;
+            background-color: #f1f8e9;
+            color: #33691e;
+            cursor: pointer;
+            width: 120px;
+            text-align: center;
+        }
+
+        .goal-picker select:focus {
+            outline: none;
+            border-color: #81c784;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .modal-btn {
+            padding: 12px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+        }
+
+        .cancel-btn {
+            background-color: #ffcdd2;
+            color: #c62828;
+            border: 3px solid #ef9a9a;
+            box-shadow: 0 4px 0 #b71c1c;
+        }
+        .cancel-btn:hover {
+            background-color: #ef9a9a;
+            transform: translateY(-2px);
+        }
+        .cancel-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #b71c1c;
+        }
+
+        .save-btn {
+            background-color: #c8e6c9;
+            color: #2e7d32;
+            border: 3px solid #a5d6a7;
+            box-shadow: 0 4px 0 #1b5e20;
+        }
+        .save-btn:hover {
+            background-color: #a5d6a7;
+            transform: translateY(-2px);
+        }
+        .save-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #1b5e20;
+        }
+        /* ========== 목표 설정 모달 스타일 끝 ========== */
+
         /* 동물의 숲 스타일 데코레이션 요소 */
         .leaf-decoration {
             position: absolute;
@@ -474,6 +655,22 @@
             display: inline-block;
             margin-right: 5px;
         }
+
+        /* 로딩 상태 표시 */
+        .loading {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+        }
+
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            border: 2px solid #ef5350;
+        }
     </style>
 </head>
 <body>
@@ -522,8 +719,11 @@
 
             <!-- 글 작성 목표치 진행 프로그래스바 -->
             <div class="content-section">
-                <h3>🎯 글 작성 목표</h3>
-                <div class="progress-container">
+                <div class="content-header">
+                    <h3>🎯 글 작성 목표</h3>
+                    <button class="goal-setting-btn">목표설정</button>
+                </div>
+                <div class="progress-container" id="monthly-progress">
                     <div class="progress-info">
                         <span>이번 달 목표: 30개</span>
                         <span>12/30 (40%)</span>
@@ -532,7 +732,7 @@
                         <div class="progress" style="width: 40%;"></div>
                     </div>
                 </div>
-                <div class="progress-container">
+                <div class="progress-container" id="weekly-progress">
                     <div class="progress-info">
                         <span>이번 주 목표: 7개</span>
                         <span>3/7 (43%)</span>
@@ -602,235 +802,546 @@
     </div>
 </div>
 
+<!-- ========== 목표 설정 모달 HTML 시작 ========== -->
+<div class="modal-overlay" id="goal-modal">
+    <div class="modal-content">
+        <h2>🎯 목표 설정</h2>
+        <div class="goal-picker-container">
+            <div class="goal-picker">
+                <label for="monthly-goal-select">이번 달 목표</label>
+                <select id="monthly-goal-select"></select>
+            </div>
+            <div class="goal-picker">
+                <label for="weekly-goal-select">이번 주 목표</label>
+                <select id="weekly-goal-select"></select>
+            </div>
+        </div>
+        <div class="modal-buttons">
+            <button id="save-goal-btn" class="modal-btn save-btn">저장</button>
+            <button id="cancel-goal-btn" class="modal-btn cancel-btn">취소</button>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 <script>
-    // 페이지가 로드되면 차트 생성
+    // ========== 전역 변수 및 상태 관리 ==========
+    let userProgress = {
+        monthly: { current: 12, goal: 30 },
+        weekly: { current: 3, goal: 7 }
+    };
+
+    let chartInstances = {};
+    let isServerAvailable = false;
+
+    // ========== 앱 초기화 ==========
     document.addEventListener('DOMContentLoaded', function() {
-        // 닉네임 동적 반영
-        const nickname = localStorage.getItem("nickname");
-        if (nickname) {
-            document.getElementById("nickname-area").innerText = `🌿 ${nickname}님 🌿`;
-        }
+        console.log('🌟 마이페이지 초기화 시작...');
 
-        // 사용자 통계 가져오기
-        fetchUserStats();
+        // 1. 기본 설정
+        initializeBasicSettings();
 
-        // 프로필 꾸미기 버튼 누르면 파일 선택 창 열림
-        document.querySelector('.edit-profile-btn').addEventListener('click', function () {
-            document.getElementById('profileImageInput').click();
-        });
+        // 2. 이벤트 리스너 설정
+        setupEventListeners();
 
-        // 이미지 선택하면 업로드
-        document.getElementById('profileImageInput').addEventListener('change', async function () {
-            const file = this.files[0];
-            if (!file) return;
+        // 3. 목표 설정 모달 초기화
+        initializeGoalModal();
 
-            const formData = new FormData();
-            formData.append("image", file);
+        // 4. 기본 차트 먼저 표시 (로딩 상태 개선)
+        createDefaultCharts();
+        updateGoalProgressUI();
 
-            try {
-                const response = await fetch('/api/profile/upload', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                if (response.ok) {
-                    const imageUrl = await response.text();  // 문자열로 받음
-                    document.getElementById('profile-image').src = imageUrl;
-                    alert("🌿 이미지가 변경되었어요!");
-                } else {
-                    alert("업로드 실패 🥲");
-                }
-            } catch (err) {
-                console.error(err);
-                alert("오류 발생");
-            }
-        });
+        // 5. 서버 데이터 시도
+        setTimeout(() => {
+            fetchUserStats();
+        }, 100);
     });
 
-function fetchUserStats() {
+    // ========== 기본 설정 ==========
+    function initializeBasicSettings() {
+        console.log('📝 기본 설정 초기화...');
 
-        // 세션에서 사용자 정보 가져오기 (예: sessionStorage 사용)
-        const username = localStorage.getItem('username');
-        if (!username) {
-            window.location.href = '/login.html';
+        // 닉네임 설정
+        const nickname = localStorage.getItem("nickname") || "숲지기";
+        document.getElementById("nickname-area").innerText = `🌿 ${nickname}님 🌿`;
+
+        console.log(`✅ 닉네임 설정 완료: ${nickname}`);
+    }
+
+    // ========== 이벤트 리스너 설정 ==========
+    function setupEventListeners() {
+        console.log('🔗 이벤트 리스너 설정...');
+
+        // 프로필 이미지 업로드
+        const editProfileBtn = document.querySelector('.edit-profile-btn');
+        const profileImageInput = document.getElementById('profileImageInput');
+
+        if (editProfileBtn && profileImageInput) {
+            editProfileBtn.addEventListener('click', function () {
+                console.log('📸 프로필 이미지 선택 버튼 클릭');
+                profileImageInput.click();
+            });
+
+            profileImageInput.addEventListener('change', handleProfileImageUpload);
+        }
+
+        // 목표 설정 모달
+        const goalSettingBtn = document.querySelector('.goal-setting-btn');
+        const cancelGoalBtn = document.getElementById('cancel-goal-btn');
+        const saveGoalBtn = document.getElementById('save-goal-btn');
+        const goalModal = document.getElementById('goal-modal');
+
+        if (goalSettingBtn) {
+            goalSettingBtn.addEventListener('click', openGoalModal);
+        }
+        if (cancelGoalBtn) {
+            cancelGoalBtn.addEventListener('click', closeGoalModal);
+        }
+        if (saveGoalBtn) {
+            saveGoalBtn.addEventListener('click', saveGoalsToServer);
+        }
+        if (goalModal) {
+            goalModal.addEventListener('click', function(event) {
+                if (event.target === goalModal) closeGoalModal();
+            });
+        }
+
+        console.log('✅ 이벤트 리스너 설정 완료');
+    }
+
+    // ========== 프로필 이미지 업로드 ==========
+    async function handleProfileImageUpload(event) {
+        console.log('📸 프로필 이미지 업로드 시작...');
+
+        const file = event.target.files[0];
+        if (!file) {
+            console.log('❌ 파일이 선택되지 않음');
             return;
         }
 
-        //서버에서 통계 데이터 받아옴
-        fetch('/api/user/stats', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Username': username // 로그인된 사용자 이름을 헤더에 포함
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`통계 데이터를 가져오는데 실패했습니다. 상태 코드: ${response.status}, 응답: ${response.text}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            // 차트 업데이트
-            updateViewsChart(data.viewStats);
-            updatePostsChart(data.postStats);
+        console.log(`📁 선택된 파일: ${file.name}, 크기: ${file.size}bytes`);
 
-            // 목표 진행률 업데이트
-            updateGoalProgress(data.goalProgress);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            // 오류 발생 시 기본 데이터로 차트 생성 (개발/테스트용)
-            createDefaultCharts();
-        });
+        const formData = new FormData();
+        formData.append("image", file);
+
+        try {
+            console.log('🚀 서버에 이미지 업로드 중...');
+
+            const response = await fetch('/api/profile/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                const imageUrl = await response.text();
+                document.getElementById('profile-image').src = imageUrl;
+                console.log(`✅ 이미지 업로드 성공: ${imageUrl}`);
+                alert("🌿 프로필 이미지가 변경되었어요!");
+            } else {
+                console.error(`❌ 업로드 실패: ${response.status} ${response.statusText}`);
+                alert("😅 이미지 업로드에 실패했어요. 다시 시도해주세요!");
+            }
+        } catch (error) {
+            console.error('❌ 프로필 이미지 업로드 오류:', error);
+            alert("📡 서버 연결에 문제가 있어요. 잠시 후 다시 시도해주세요!");
+        }
     }
 
-function updateViewsChart(viewStats) {
-    const labels = viewStats.map(item => item.date);
-    const data = viewStats.map(item => item.views);
+    // ========== 목표 설정 모달 ==========
+    function initializeGoalModal() {
+        console.log('🎯 목표 설정 모달 초기화...');
 
-    const viewsCtx = document.getElementById('views-chart').getContext('2d');
-    const viewsChart = new Chart(viewsCtx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: '방문객 수',
-                data: data,
-                backgroundColor: [
-                    '#81c784', '#66bb6a', '#4caf50',
-                    '#43a047', '#388e3c', '#2e7d32', '#1b5e20'
-                ],
-                borderColor: '#1b5e20',
-                borderWidth: 2,
-                borderRadius: 8
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    grid: {
-                        display: true,
-                        color: '#e8f5e9'
-                    },
-                    ticks: {
-                        font: {
-                            family: 'Gaegu',
-                            size: 14
-                        },
-                        color: '#33691e'
-                    }
+        const monthlySelect = document.getElementById('monthly-goal-select');
+        const weeklySelect = document.getElementById('weekly-goal-select');
+
+        if (!monthlySelect || !weeklySelect) {
+            console.error('❌ 목표 설정 셀렉트 박스를 찾을 수 없음');
+            return;
+        }
+
+        // 월간 목표 옵션 (1-100개)
+        for (let i = 1; i <= 100; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = `${i}개`;
+            monthlySelect.appendChild(option);
+        }
+
+        // 주간 목표 옵션 (1-20개)
+        for (let i = 1; i <= 20; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = `${i}개`;
+            weeklySelect.appendChild(option);
+        }
+
+        console.log('✅ 목표 설정 모달 초기화 완료');
+    }
+
+    function openGoalModal() {
+        console.log('🎯 목표 설정 모달 열기');
+
+        const monthlySelect = document.getElementById('monthly-goal-select');
+        const weeklySelect = document.getElementById('weekly-goal-select');
+        const goalModal = document.getElementById('goal-modal');
+
+        if (monthlySelect && weeklySelect && goalModal) {
+            monthlySelect.value = userProgress.monthly.goal;
+            weeklySelect.value = userProgress.weekly.goal;
+            goalModal.classList.add('show');
+            console.log(`현재 목표 - 월간: ${userProgress.monthly.goal}, 주간: ${userProgress.weekly.goal}`);
+        }
+    }
+
+    function closeGoalModal() {
+        console.log('❌ 목표 설정 모달 닫기');
+        const goalModal = document.getElementById('goal-modal');
+        if (goalModal) {
+            goalModal.classList.remove('show');
+        }
+    }
+
+    async function saveGoalsToServer() {
+        console.log('💾 목표 저장 시작...');
+
+        const monthlySelect = document.getElementById('monthly-goal-select');
+        const weeklySelect = document.getElementById('weekly-goal-select');
+
+        if (!monthlySelect || !weeklySelect) {
+            alert('목표 설정에 오류가 있습니다.');
+            return;
+        }
+
+        const newMonthlyGoal = parseInt(monthlySelect.value);
+        const newWeeklyGoal = parseInt(weeklySelect.value);
+        const username = localStorage.getItem('username') || 'user';
+
+        console.log(`새 목표 - 월간: ${newMonthlyGoal}, 주간: ${newWeeklyGoal}, 사용자: ${username}`);
+
+        const goalData = {
+            monthlyGoal: newMonthlyGoal,
+            weeklyGoal: newWeeklyGoal
+        };
+
+        try {
+            console.log('🚀 서버에 목표 저장 중...');
+
+            const response = await fetch('/api/user/stats/goals', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Username': username
                 },
-                x: {
-                    grid: {
-                        display: false
-                    },
-                    ticks: {
-                        font: {
-                            family: 'Gaegu',
-                            size: 14
+                body: JSON.stringify(goalData)
+            });
+
+            if (response.ok) {
+                // 성공 시 로컬 데이터 업데이트
+                userProgress.monthly.goal = newMonthlyGoal;
+                userProgress.weekly.goal = newWeeklyGoal;
+                updateGoalProgressUI();
+
+                console.log('✅ 목표 저장 성공');
+                alert('🎯 목표가 성공적으로 저장되었습니다!');
+                closeGoalModal();
+            } else {
+                const errorText = await response.text();
+                console.error(`❌ 목표 저장 실패: ${response.status} - ${errorText}`);
+                throw new Error(`서버 오류: ${response.status}`);
+            }
+        } catch (error) {
+            console.error('❌ 목표 저장 오류:', error);
+
+            // 서버 연결 실패 시에도 로컬에서는 업데이트
+            userProgress.monthly.goal = newMonthlyGoal;
+            userProgress.weekly.goal = newWeeklyGoal;
+            updateGoalProgressUI();
+
+            alert('📡 서버 연결에 문제가 있지만, 임시로 목표를 설정했습니다.\n페이지를 새로고침하면 이전 설정으로 돌아갑니다.');
+            closeGoalModal();
+        }
+    }
+
+    // ========== 서버 데이터 가져오기 ==========
+    async function fetchUserStats() {
+        console.log('📊 서버에서 사용자 통계 데이터 요청...');
+
+        const username = localStorage.getItem('username') || 'user';
+        console.log(`사용자명: ${username}`);
+
+        try {
+            const response = await fetch('/api/user/stats', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Username': username
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            console.log('✅ 서버 데이터 수신 성공:', data);
+
+            isServerAvailable = true;
+
+            // 사용자 진행률 데이터 업데이트
+            if (data.goalProgress) {
+                userProgress.monthly.current = data.goalProgress.monthlyPosts || 0;
+                userProgress.monthly.goal = data.goalProgress.monthlyGoal || 30;
+                userProgress.weekly.current = data.goalProgress.weeklyPosts || 0;
+                userProgress.weekly.goal = data.goalProgress.weeklyGoal || 7;
+            }
+
+            // 차트 업데이트
+            if (data.viewStats && data.viewStats.length > 0) {
+                updateViewsChart(data.viewStats);
+            }
+            if (data.postStats && data.postStats.length > 0) {
+                updatePostsChart(data.postStats);
+            }
+
+            // UI 업데이트
+            updateGoalProgressUI();
+
+            console.log('🎉 모든 데이터 업데이트 완료');
+
+        } catch (error) {
+            console.error('❌ 사용자 통계 데이터 가져오기 실패:', error);
+            isServerAvailable = false;
+
+            // 서버 연결 실패해도 기본 차트는 이미 표시되어 있음
+            console.log('📊 기본 차트로 계속 진행');
+        }
+    }
+
+    // ========== 차트 생성 및 업데이트 ==========
+    function updateViewsChart(viewStats) {
+        console.log('📈 방문객 수 차트 업데이트:', viewStats);
+
+        const labels = viewStats.map(item => item.date);
+        const data = viewStats.map(item => item.views);
+
+        // 기존 차트 제거
+        if (chartInstances['views-chart']) {
+            chartInstances['views-chart'].destroy();
+        }
+
+        const canvas = document.getElementById('views-chart');
+        if (!canvas) {
+            console.error('❌ views-chart 캔버스를 찾을 수 없음');
+            return;
+        }
+
+        const ctx = canvas.getContext('2d');
+        chartInstances['views-chart'] = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '방문객 수',
+                    data: data,
+                    backgroundColor: [
+                        '#81c784', '#66bb6a', '#4caf50',
+                        '#43a047', '#388e3c', '#2e7d32', '#1b5e20'
+                    ],
+                    borderColor: '#1b5e20',
+                    borderWidth: 2,
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            font: { family: 'Gaegu', size: 12 },
+                            color: '#33691e'
                         },
-                        color: '#33691e'
+                        grid: { color: '#e8f5e9' }
+                    },
+                    x: {
+                        ticks: {
+                            font: { family: 'Gaegu', size: 12 },
+                            color: '#33691e'
+                        },
+                        grid: { display: false }
                     }
                 }
             }
+        });
+
+        console.log('✅ 방문객 수 차트 업데이트 완료');
+    }
+
+    function updatePostsChart(postStats) {
+        console.log('📝 글 작성수 차트 업데이트:', postStats);
+
+        const labels = postStats.map(item => item.date);
+        const data = postStats.map(item => item.posts);
+
+        // 기존 차트 제거
+        if (chartInstances['posts-chart']) {
+            chartInstances['posts-chart'].destroy();
         }
-    });
-}
 
-function updatePostsChart(postStats) {
-    const labels = postStats.map(item => item.date);
-    const data = postStats.map(item => item.posts);
+        const canvas = document.getElementById('posts-chart');
+        if (!canvas) {
+            console.error('❌ posts-chart 캔버스를 찾을 수 없음');
+            return;
+        }
 
-    const postsCtx = document.getElementById('posts-chart').getContext('2d');
-    const postsChart = new Chart(postsCtx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: '글 작성수',
-                data: data,
-                backgroundColor: [
-                    '#ffcc80', '#ffb74d', '#ffa726',
-                    '#ff9800', '#fb8c00', '#f57c00', '#ef6c00'
-                ],
-                borderColor: '#e65100',
-                borderWidth: 2,
-                borderRadius: 8
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                }
+        const ctx = canvas.getContext('2d');
+        chartInstances['posts-chart'] = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '글 작성수',
+                    data: data,
+                    backgroundColor: [
+                        '#ffcc80', '#ffb74d', '#ffa726',
+                        '#ff9800', '#fb8c00', '#f57c00', '#ef6c00'
+                    ],
+                    borderColor: '#e65100',
+                    borderWidth: 2,
+                    borderRadius: 8
+                }]
             },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 5,
-                    ticks: {
-                        stepSize: 1,
-                        font: {
-                            family: 'Gaegu',
-                            size: 14
-                        },
-                        color: '#e65100'
-                    },
-                    grid: {
-                        display: true,
-                        color: '#fff3e0'
-                    }
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
                 },
-                x: {
-                    grid: {
-                        display: false
-                    },
-                    ticks: {
-                        font: {
-                            family: 'Gaegu',
-                            size: 14
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 5,
+                        ticks: {
+                            stepSize: 1,
+                            font: { family: 'Gaegu', size: 12 },
+                            color: '#e65100'
                         },
-                        color: '#e65100'
+                        grid: { color: '#fff3e0' }
+                    },
+                    x: {
+                        ticks: {
+                            font: { family: 'Gaegu', size: 12 },
+                            color: '#e65100'
+                        },
+                        grid: { display: false }
                     }
                 }
             }
+        });
+
+        console.log('✅ 글 작성수 차트 업데이트 완료');
+    }
+
+    function createDefaultCharts() {
+        console.log('🎨 기본 차트 생성...');
+
+        // 기본 방문객 수 데이터
+        const defaultViewsData = [
+            { date: '6일전', views: 15 },
+            { date: '5일전', views: 22 },
+            { date: '4일전', views: 18 },
+            { date: '3일전', views: 25 },
+            { date: '2일전', views: 30 },
+            { date: '어제', views: 28 },
+            { date: '오늘', views: 35 }
+        ];
+
+        // 기본 글 작성수 데이터
+        const defaultPostsData = [
+            { date: '6일전', posts: 1 },
+            { date: '5일전', posts: 0 },
+            { date: '4일전', posts: 2 },
+            { date: '3일전', posts: 1 },
+            { date: '2일전', posts: 0 },
+            { date: '어제', posts: 1 },
+            { date: '오늘', posts: 0 }
+        ];
+
+        updateViewsChart(defaultViewsData);
+        updatePostsChart(defaultPostsData);
+
+        console.log('✅ 기본 차트 생성 완료');
+    }
+
+    // ========== 목표 진행률 UI 업데이트 ==========
+    function updateGoalProgressUI() {
+        console.log('🎯 목표 진행률 UI 업데이트...', userProgress);
+
+        // 월간 목표 업데이트
+        const monthlyContainer = document.getElementById('monthly-progress');
+        if (monthlyContainer) {
+            const monthlyInfo = monthlyContainer.querySelector('.progress-info');
+            const monthlyBar = monthlyContainer.querySelector('.progress');
+
+            if (monthlyInfo && monthlyBar) {
+                const monthlyPercentage = userProgress.monthly.goal > 0 ?
+                    Math.min(Math.round((userProgress.monthly.current / userProgress.monthly.goal) * 100), 100) : 0;
+
+                monthlyInfo.innerHTML =
+                    `<span>이번 달 목표: ${userProgress.monthly.goal}개</span>
+                     <span>${userProgress.monthly.current}/${userProgress.monthly.goal} (${monthlyPercentage}%)</span>`;
+                monthlyBar.style.width = `${monthlyPercentage}%`;
+            }
         }
-    });
-}
 
-function updateGoalProgress(goalProgress) {
-    // 월간 목표 업데이트
-    const monthlyProgressElement = document.querySelector('.progress-container:nth-child(1)');
-    const monthlyInfoElement = monthlyProgressElement.querySelector('.progress-info');
-    const monthlyProgressBar = monthlyProgressElement.querySelector('.progress');
+        // 주간 목표 업데이트
+        const weeklyContainer = document.getElementById('weekly-progress');
+        if (weeklyContainer) {
+            const weeklyInfo = weeklyContainer.querySelector('.progress-info');
+            const weeklyBar = weeklyContainer.querySelector('.progress');
 
-    monthlyInfoElement.innerHTML =
-        `<span>이번 달 목표: ${goalProgress.monthlyGoal}개</span>
-         <span>${goalProgress.monthlyPosts}/${goalProgress.monthlyGoal} (${goalProgress.monthlyPercentage}%)</span>`;
-    monthlyProgressBar.style.width = `${goalProgress.monthlyPercentage}%`;
+            if (weeklyInfo && weeklyBar) {
+                const weeklyPercentage = userProgress.weekly.goal > 0 ?
+                    Math.min(Math.round((userProgress.weekly.current / userProgress.weekly.goal) * 100), 100) : 0;
 
-    // 주간 목표 업데이트
-    const weeklyProgressElement = document.querySelector('.progress-container:nth-child(2)');
-    const weeklyInfoElement = weeklyProgressElement.querySelector('.progress-info');
-    const weeklyProgressBar = weeklyProgressElement.querySelector('.progress');
+                weeklyInfo.innerHTML =
+                    `<span>이번 주 목표: ${userProgress.weekly.goal}개</span>
+                     <span>${userProgress.weekly.current}/${userProgress.weekly.goal} (${weeklyPercentage}%)</span>`;
+                weeklyBar.style.width = `${weeklyPercentage}%`;
+            }
+        }
 
-    weeklyInfoElement.innerHTML =
-        `<span>이번 주 목표: ${goalProgress.weeklyGoal}개</span>
-         <span>${goalProgress.weeklyPosts}/${goalProgress.weeklyGoal} (${goalProgress.weeklyPercentage}%)</span>`;
-    weeklyProgressBar.style.width = `${goalProgress.weeklyPercentage}%`;
-}
+        console.log('✅ 목표 진행률 UI 업데이트 완료');
+    }
+
+    // ========== 유틸리티 함수 ==========
+    function showError(message) {
+        console.error('❌ 오류:', message);
+        // 필요시 UI에 에러 메시지 표시
+    }
+
+    function showSuccess(message) {
+        console.log('✅ 성공:', message);
+        // 필요시 UI에 성공 메시지 표시
+    }
+
+    // ========== 디버깅용 함수 ==========
+    window.debugMyPage = function() {
+        console.log('=== 마이페이지 디버그 정보 ===');
+        console.log('사용자 진행률:', userProgress);
+        console.log('차트 인스턴스:', Object.keys(chartInstances));
+        console.log('서버 연결 상태:', isServerAvailable);
+        console.log('로컬 저장소:', {
+            username: localStorage.getItem('username'),
+            nickname: localStorage.getItem('nickname')
+        });
+    };
+
+    console.log('🎉 마이페이지 스크립트 로드 완료! 디버깅하려면 debugMyPage() 함수를 호출하세요.');
 
 </script>
 </body>

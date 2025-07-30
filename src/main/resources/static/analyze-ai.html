@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>코드 분석기</title>
+    <link rel="stylesheet" href="/css/analyze-ai.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>💡 코드 분석 도우미</h1>
+
+    <label for="codeInput">🔧 코드 입력</label>
+    <textarea id="codeInput" placeholder="여기에 코드를 입력하세요..."></textarea>
+
+    <button onclick="analyzeCode()">코드 분석</button>
+    <div class="loading" id="loading">AI가 코드를 분석 중입니다...</div>
+
+    <label for="codeOutput">✨ 개선된 코드</label>
+    <textarea id="codeOutput" readonly placeholder="여기에 개선된 코드가 출력됩니다."></textarea>
+
+    <!-- 버튼 그룹 추가 -->
+    <div class="btn-group">
+        <button onclick="goHome()">처음으로</button>
+        <button onclick="prepareWritePost()">글 작성하기</button>
+    </div>
+
+</div>
+
+<script src="/js/analyze-ai.js"></script>
+</body>
+</html>

@@ -84,29 +84,86 @@
 </div>
 
 <script>
+
     const events = {
-        "2025-05-22": "태그1",
-        "2025-05-23": "태그2",
-        "2025-05-24": "태그3",
-        "2025-05-25": "태그4",
-        "2025-05-26": "태그5",
-        "2025-05-27": "태그6"
+      "2025-08-01": { title: "ADsP 3회 시험 접수", url: "https://www.datascientist.or.kr" },
+      "2025-08-15": { title: "정보처리기사 필기", url: "https://www.q-net.or.kr" },
+      "2025-10-20": { title: "SQLD 시험", url: "https://www.datascientist.or.kr" },
+      "2025-11-10": { title: "네트워크관리사 시험", url: "https://www.icqa.or.kr" }
     };
 
     flatpickr("#calendar-input", {
-        inline: true,
-        locale: "ko",
-        dateFormat: "Y-m-d",
-        onDayCreate: function(dObj, dStr, fp, dayElem) {
-            const date = dayElem.dateObj.toISOString().split('T')[0];
-            const eventDates = Object.keys(events);
+      inline: true,
+      locale: "ko",
+      dateFormat: "Y-m-d",
 
-            const eventIndex = eventDates.indexOf(date);
-            if (eventIndex !== -1) {
-                dayElem.classList.add("tag-tag" + eventIndex);
-                dayElem.title = events[date];
-            }
+      onChange: function(selectedDates, dateStr) {
+        if(events[dateStr]) {
+          window.open(events[dateStr].url, "_blank");
         }
+      },
+
+      onDayCreate: function(dObj, dStr, fp, dayElem) {
+        const localDate = dayElem.dateObj;
+        const year = localDate.getFullYear();
+        const month = String(localDate.getMonth() + 1).padStart(2, '0');
+        const day = String(localDate.getDate()).padStart(2, '0');
+        const dateKey = `${year}-${month}-${day}`;
+
+        if(events[dateKey]) {
+          dayElem.style.cursor = "pointer";
+
+          if (!dayElem.hasTooltipEvents) {
+            dayElem.hasTooltipEvents = true;
+
+            let tooltip = null;
+
+            dayElem.addEventListener("mouseenter", (e) => {
+              const existingTooltip = document.querySelector(".custom-tooltip");
+              if(existingTooltip) existingTooltip.remove();
+
+              tooltip = document.createElement("div");
+              tooltip.className = "custom-tooltip";
+              tooltip.textContent = events[dateKey].title;
+              Object.assign(tooltip.style, {
+                position: "fixed",
+                top: (e.clientY + 10) + "px",
+                left: (e.clientX + 10) + "px",
+                background: "rgba(0, 0, 0, 0.7)",
+                color: "#fff",
+                padding: "4px 8px",
+                borderRadius: "4px",
+                fontSize: "12px",
+                pointerEvents: "none",
+                zIndex: "9999"
+              });
+              document.body.appendChild(tooltip);
+            });
+
+            const moveTooltip = (ev) => {
+              if (tooltip) {
+                tooltip.style.top = (ev.clientY + 10) + "px";
+                tooltip.style.left = (ev.clientX + 10) + "px";
+              }
+            };
+
+            const removeTooltip = () => {
+              if (tooltip) {
+                tooltip.remove();
+                tooltip = null;
+              }
+            };
+
+            dayElem.addEventListener("mousemove", moveTooltip);
+
+            dayElem.addEventListener("mouseleave", () => {
+              removeTooltip();
+              dayElem.removeEventListener("mousemove", moveTooltip);
+              dayElem.removeEventListener("mouseleave", arguments.callee); // 현재 핸들러 제거
+            });
+          }
+        }
+      }
     });
 </script>
 

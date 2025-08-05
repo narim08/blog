@@ -170,4 +170,10 @@ public class BoardService {
 
         return responseDTO;
     }
+
+    // 태그로 게시글 검색 (페이징 포함)
+    public Page<BoardResponseDTO> searchBoardsByTag(String tag, Pageable pageable) {
+        Page<Board> boards = boardRepository.findByTag(tag, pageable);
+        return boards.map(this::convertToResponseDTO);
+    }
 }

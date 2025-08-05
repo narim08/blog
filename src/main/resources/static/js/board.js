@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     let allBoards = [];  // 전체 게시글을 저장할 배열
+    let filteredBoards = [];  // 필터링된 게시글 배열
+    let isFiltering = false;  // 필터링 상태 플래그
 
     function timeAgo(timeString) {
         const now = new Date();
@@ -58,7 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
 
             allBoards = data.content; // 전체 게시글을 저장
-            renderBoards(allBoards);  // 전체 게시글 렌더링
+            isFiltering = false; // 필터링 아님
+            renderBoards(allBoards);
             renderPagination(data);
         } catch (error) {
             console.error('Error fetching boards:', error);
@@ -97,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Function to render pagination
+    // Function to render pagination (기본 서버 페이징용)
     function renderPagination(data) {
         paginationContainer.innerHTML = '';
 
@@ -106,6 +109,42 @@ document.addEventListener('DOMContentLoaded', () => {
             pageBtn.textContent = i + 1;
             pageBtn.addEventListener('click', () => fetchBoards(i, searchInput.value));
             paginationContainer.appendChild(pageBtn);
+        }
+    }
+
+    // 클라이언트 페이징 (필터링 결과용)
+    function renderBoardsWithPagination(boards, page = 0) {
+        const pageSize = 5;
+        const start = page * pageSize;
+        const end = start + pageSize;
+        const paginatedBoards = boards.slice(start, end);
+
+        renderBoards(paginatedBoards);
+
+        paginationContainer.innerHTML = '';
+        const totalPages = Math.ceil(boards.length / pageSize);
+        for (let i = 0; i < totalPages; i++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.textContent = i + 1;
+            pageBtn.addEventListener('click', () => renderBoardsWithPagination(boards, i));
+            paginationContainer.appendChild(pageBtn);
+        }
+    }
+
+    // 전체 게시글 중 태그 필터
+    async function fetchBoardsForTagFilter(tagLabel) {
+        try {
+            const response = await fetch(`/api/board?page=0&size=9999&sort=createTime,desc`);
+            const data = await response.json();
+
+            allBoards = data.content;
+            filteredBoards = allBoards.filter(board => tagMap[board.tag] === tagLabel);
+            isFiltering = true;
+
+            renderBoardsWithPagination(filteredBoards, 0);
+        } catch (error) {
+            console.error('태그 필터 게시글 로딩 중 오류:', error);
+            alert('태그별 게시글을 불러오는 중 오류가 발생했습니다.');
         }
     }
 
@@ -131,17 +170,12 @@ document.addEventListener('DOMContentLoaded', () => {
         "tag-tag6": "태그6"
     };
 
-    // 태그 버튼 클릭 시 저장된 게시글에서 필터링
+    // 태그 버튼 클릭 시 전체 데이터에서 필터링
     const tagButtons = document.querySelectorAll('.tag');
     tagButtons.forEach(button => {
         button.addEventListener('click', () => {
-            const clickedText = button.innerText.trim(); // 예: "태그1"
-
-            // board.tag가 "tag-tag1" → 태그명을 "태그1"로 변환하여 비교
-            const filtered = allBoards.filter(board => tagMap[board.tag] === clickedText);
-
-            renderBoards(filtered); // 필터링된 게시글만 렌더링
-            paginationContainer.innerHTML = ''; // 페이지네이션 제거
+            const clickedText = button.innerText.trim();
+            fetchBoardsForTagFilter(clickedText);
         });
     });
 

@@ -16,4 +16,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     List<Board> findByUserUsernameAndCreateTimeAfter(String username, LocalDateTime date);
     int countByUserUsernameAndCreateTimeAfter(String username, LocalDateTime date);
+
+    Page<Board> findByTag(String tag, Pageable pageable);
 }

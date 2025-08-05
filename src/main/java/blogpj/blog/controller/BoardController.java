@@ -90,4 +90,11 @@ public class BoardController {
     public ResponseEntity<Long> getLikeCount(@PathVariable Long id) {
         return ResponseEntity.ok(boardService.getLikeCount(id));
     }
+
+    @GetMapping("/tag")
+    public ResponseEntity<Page<BoardResponseDTO>> getBoardsByTag(@RequestParam String tag,
+                                                                 @PageableDefault(size = 5, sort = "createTime", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable) {
+        Page<BoardResponseDTO> boards = boardService.searchBoardsByTag(tag, pageable);
+        return ResponseEntity.ok(boards);
+    }
 }

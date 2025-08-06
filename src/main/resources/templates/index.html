@@ -19,6 +19,25 @@
             color: #222; /* 기본 글자색 (배경에 따라 조절 가능) */
             font-family: 'Segoe UI', sans-serif;
         }
+        .custom-tooltip {
+            position: fixed;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .event-dot {
+            display: inline-block;
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 10px;      /* 조금 크게 조정 가능 */
+            height: 10px;
+            border-radius: 50%;
+        }
     </style>
 </head>
 <body>
@@ -84,12 +103,24 @@
 </div>
 
 <script>
+    const categoryColors = {
+        "자격증": "#A0C4FF",   // 파스텔 블루
+        "세미나": "#FFB3AB",   // 파스텔 레드
+        "해커톤": "#B9FBC0",   // 파스텔 그린
+        "공모전": "#FFC6FF",   // 파스텔 핑크
+        "박람회": "#FFE4B3",   // 파스텔 옐로우
+        "워크숍": "#D0B3FF"    // 파스텔 퍼플
+    };
 
     const events = {
-      "2025-08-01": { title: "ADsP 3회 시험 접수", url: "https://www.datascientist.or.kr" },
-      "2025-08-15": { title: "정보처리기사 필기", url: "https://www.q-net.or.kr" },
-      "2025-10-20": { title: "SQLD 시험", url: "https://www.datascientist.or.kr" },
-      "2025-11-10": { title: "네트워크관리사 시험", url: "https://www.icqa.or.kr" }
+      "2025-08-06": { title: "Oracle Dev Day", url: "https://onoffmix.com/event/326545?srsltid=AfmBOooSu8KHeEbVaDaZnSNEMlGRgjwGYh5NV4t7CY_InMCwuixJ3iFe", category: "공모전" },
+      "2025-08-06": { title: "Oracle Dev Day", url: "https://onoffmix.com/event/326545?srsltid=AfmBOooSu8KHeEbVaDaZnSNEMlGRgjwGYh5NV4t7CY_InMCwuixJ3iFe", category: "세미나" },
+      "2025-08-09": { title: "기사 제3회 필기시험 시작", url: "https://www.q-net.or.kr/man001.do?gSite=Q&gIntro=Y", category: "자격증" },
+      "2025-08-10": { title: "UbuCon Korea 2025", url: "https://2025.ubuntu-kr.org/ko/", category: "박람회" },
+      "2025-08-15": { title: "2025 네트워크 AI 해커톤 참가자 접수 마감", url: "https://aifactory.space/task/9159/overview", category: "해커톤" },
+      "2025-08-21": { title: "노코드 Dify와 MCP로 구현하는 AI 에이전트 업무 자동화 1-day 워크숍", url: "https://conference.etnews.com/conf_info.html?uid=414", category: "워크숍" },
+      "2025-08-23": { title: "FEConf 2025", url: "https://2025.feconf.kr/", category: "세미나" },
+      "2025-08-31": { title: "기사 제3회 필기시험 마감", url: "https://www.q-net.or.kr/man001.do?gSite=Q&gIntro=Y", category: "자격증" }
     };
 
     flatpickr("#calendar-input", {
@@ -113,6 +144,15 @@
         if(events[dateKey]) {
           dayElem.style.cursor = "pointer";
 
+          // 작은 원 추가 (중복 방지)
+          if (!dayElem.querySelector(".event-dot")) {
+            const dot = document.createElement("span");
+            dot.className = "event-dot";
+            dot.style.backgroundColor = categoryColors[events[dateKey].category] || "#000";
+            dayElem.style.position = "relative";
+            dayElem.appendChild(dot);
+          }
+
           if (!dayElem.hasTooltipEvents) {
             dayElem.hasTooltipEvents = true;
 
@@ -125,10 +165,13 @@
               tooltip = document.createElement("div");
               tooltip.className = "custom-tooltip";
               tooltip.textContent = events[dateKey].title;
+
+              // 날짜 바로 아래에 고정 위치
+              const rect = dayElem.getBoundingClientRect();
               Object.assign(tooltip.style, {
                 position: "fixed",
-                top: (e.clientY + 10) + "px",
-                left: (e.clientX + 10) + "px",
+                top: `${rect.bottom + 5}px`,
+                left: `${rect.left}px`,
                 background: "rgba(0, 0, 0, 0.7)",
                 color: "#fff",
                 padding: "4px 8px",
@@ -137,15 +180,9 @@
                 pointerEvents: "none",
                 zIndex: "9999"
               });
+
               document.body.appendChild(tooltip);
             });
-
-            const moveTooltip = (ev) => {
-              if (tooltip) {
-                tooltip.style.top = (ev.clientY + 10) + "px";
-                tooltip.style.left = (ev.clientX + 10) + "px";
-              }
-            };
 
             const removeTooltip = () => {
               if (tooltip) {
@@ -154,12 +191,8 @@
               }
             };
 
-            dayElem.addEventListener("mousemove", moveTooltip);
-
             dayElem.addEventListener("mouseleave", () => {
               removeTooltip();
-              dayElem.removeEventListener("mousemove", moveTooltip);
-              dayElem.removeEventListener("mouseleave", arguments.callee); // 현재 핸들러 제거
             });
           }
         }

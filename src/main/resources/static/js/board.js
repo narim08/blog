@@ -136,7 +136,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 전체 게시글 중 태그 필터
     async function fetchBoardsForTagFilter(tagLabel) {
         try {
-            const response = await fetch(`/api/board?page=0&size=9999&sort=createTime,desc`);
+            const response = await fetch(`/api/board?page=0&size=9999&sort=createTime,desc`, {
+                headers: { 'Username': username }
+            });
             const data = await response.json();
 
             allBoards = data.content;

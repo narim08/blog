@@ -62,6 +62,18 @@ public class BoardService {
         return boards.map(this::convertToResponseDTO);
     }
 
+    public Page<BoardResponseDTO> getAllBoards(Pageable pageable, String username) {
+        User user = userRepository.findByUsername(username).orElse(null);
+        Page<Board> boards = boardRepository.findAll(pageable);
+
+        return boards.map(board -> {
+            long likeCount = likeRepository.countByBoard(board);
+            boolean liked = (user != null) && likeRepository.findByUserAndBoard(user, board).isPresent();
+
+            return convertToResponseDTO(board, likeCount, liked);
+        });
+    }
+
     //게시글 상세 조회
     @Transactional
     public BoardResponseDTO getBoardById(Long id, String username) {
@@ -180,6 +192,13 @@ public class BoardService {
         responseDTO.setViewCount(board.getViewCount());
         responseDTO.setTag(board.getTag());
 
+
         return responseDTO;
+    }
+    private BoardResponseDTO convertToResponseDTO(Board board, long likeCount, boolean liked) {
+        BoardResponseDTO dto = convertToResponseDTO(board);
+        dto.setLikeCount(likeCount);
+        dto.setLiked(liked);
+        return dto;
     }
 }

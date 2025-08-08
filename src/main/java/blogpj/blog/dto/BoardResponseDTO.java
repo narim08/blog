@@ -18,4 +18,5 @@ public class BoardResponseDTO {
     private LocalDateTime updateTime;
     private int viewCount;
     private boolean liked;
+    private long likeCount;
 }

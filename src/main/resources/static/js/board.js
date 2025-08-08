@@ -56,7 +56,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 url = `/api/board/search?title=${encodeURIComponent(searchTitle)}&page=${page}&size=5&sort=createTime,desc`;
             }
 
-            const response = await fetch(url);
+            const response = await fetch(url, {
+                headers: { 'Username': username }
+            });
             const data = await response.json();
 
             allBoards = data.content; // 전체 게시글을 저장
@@ -86,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <h3 class="board-title">${board.title}</h3>
                     <p class="board-preview">${board.content}</p>
                     <div class="board-meta">
-                        <span class="likes">❤️ ${board.likes || 0}</span>
+                        <span class="likes">❤️ ${board.likeCount ?? 0}</span>
                         <span class="time" title="${new Date(board.createTime).toLocaleString()}">
                             ${timeAgo(board.createTime)}
                         </span>

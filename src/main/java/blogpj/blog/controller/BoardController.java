@@ -42,8 +42,9 @@ public class BoardController {
 
     //게시글 상세 조회
     @GetMapping("/{id}")
-    public ResponseEntity<BoardResponseDTO> getBoardById(@PathVariable Long id) {
-        BoardResponseDTO board = boardService.getBoardById(id);
+    public ResponseEntity<BoardResponseDTO> getBoardById(@PathVariable Long id,
+                                                         @RequestHeader("Username") String username) {
+        BoardResponseDTO board = boardService.getBoardById(id, username);
 
         return ResponseEntity.ok(board);
     }
@@ -89,12 +90,5 @@ public class BoardController {
     @GetMapping("/{id}/like/count")
     public ResponseEntity<Long> getLikeCount(@PathVariable Long id) {
         return ResponseEntity.ok(boardService.getLikeCount(id));
-    }
-
-    @GetMapping("/tag")
-    public ResponseEntity<Page<BoardResponseDTO>> getBoardsByTag(@RequestParam String tag,
-                                                                 @PageableDefault(size = 5, sort = "createTime", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable) {
-        Page<BoardResponseDTO> boards = boardService.searchBoardsByTag(tag, pageable);
-        return ResponseEntity.ok(boards);
     }
 }

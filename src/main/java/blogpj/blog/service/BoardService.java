@@ -64,13 +64,25 @@ public class BoardService {
 
     //게시글 상세 조회
     @Transactional
-    public BoardResponseDTO getBoardById(Long id) {
+    public BoardResponseDTO getBoardById(Long id, String username) {
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
 
-        increaseViewCount(board); //조회수 증가
-        return convertToResponseDTO(board);
+        increaseViewCount(board); // 조회수 증가
+
+        BoardResponseDTO responseDTO = convertToResponseDTO(board);
+
+        // 좋아요 여부 체크
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+        boolean liked = likeRepository.findByUserAndBoard(user, board).isPresent();
+
+        responseDTO.setLiked(liked);
+
+        return responseDTO;
     }
+
+
     @Transactional
     public void increaseViewCount(Board board) {
         board.increaseViewCount(); // 조회수 증가
@@ -169,11 +181,5 @@ public class BoardService {
         responseDTO.setTag(board.getTag());
 
         return responseDTO;
-    }
-
-    // 태그로 게시글 검색 (페이징 포함)
-    public Page<BoardResponseDTO> searchBoardsByTag(String tag, Pageable pageable) {
-        Page<Board> boards = boardRepository.findByTag(tag, pageable);
-        return boards.map(this::convertToResponseDTO);
     }
 }

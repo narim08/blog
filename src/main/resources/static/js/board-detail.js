@@ -17,7 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fetchBoardDetails() {
         try {
-            const response = await fetch(`/api/board/${boardId}`);
+            const response = await fetch(`/api/board/${boardId}`, {
+                headers: { 'Username': username }
+            });
             const board = await response.json();
 
             boardDetail.innerHTML = `
@@ -57,6 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
             //게시글이 생성된 후, 좋아요 기능 추가됨
             const likeButton = document.getElementById('like-btn');
             const likeCountSpan = document.getElementById('like-count');
+
+            likeButton.textContent = board.liked ? "❤️ 좋아요 취소" : "🤍 좋아요";
+            likeCountSpan.textContent = board.likeCount ?? 0;
 
             async function updateLikeCount() {
                     const response = await fetch(`/api/board/${boardId}/like/count`);

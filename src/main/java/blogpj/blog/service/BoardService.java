@@ -62,15 +62,39 @@ public class BoardService {
         return boards.map(this::convertToResponseDTO);
     }
 
+    public Page<BoardResponseDTO> getAllBoards(Pageable pageable, String username) {
+        User user = userRepository.findByUsername(username).orElse(null);
+        Page<Board> boards = boardRepository.findAll(pageable);
+
+        return boards.map(board -> {
+            long likeCount = likeRepository.countByBoard(board);
+            boolean liked = (user != null) && likeRepository.findByUserAndBoard(user, board).isPresent();
+
+            return convertToResponseDTO(board, likeCount, liked);
+        });
+    }
+
     //게시글 상세 조회
     @Transactional
-    public BoardResponseDTO getBoardById(Long id) {
+    public BoardResponseDTO getBoardById(Long id, String username) {
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
 
-        increaseViewCount(board); //조회수 증가
-        return convertToResponseDTO(board);
+        increaseViewCount(board); // 조회수 증가
+
+        BoardResponseDTO responseDTO = convertToResponseDTO(board);
+
+        // 좋아요 여부 체크
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+        boolean liked = likeRepository.findByUserAndBoard(user, board).isPresent();
+
+        responseDTO.setLiked(liked);
+
+        return responseDTO;
     }
+
+
     @Transactional
     public void increaseViewCount(Board board) {
         board.increaseViewCount(); // 조회수 증가
@@ -168,6 +192,13 @@ public class BoardService {
         responseDTO.setViewCount(board.getViewCount());
         responseDTO.setTag(board.getTag());
 
+
         return responseDTO;
+    }
+    private BoardResponseDTO convertToResponseDTO(Board board, long likeCount, boolean liked) {
+        BoardResponseDTO dto = convertToResponseDTO(board);
+        dto.setLikeCount(likeCount);
+        dto.setLiked(liked);
+        return dto;
     }
 }

@@ -729,7 +729,7 @@
                         <span>12/30 (40%)</span>
                     </div>
                     <div class="progress-bar">
-                        <div class="progress" style="width: 40%;"></div>
+                        <div class="progress" style="width: 0%;"></div>
                     </div>
                 </div>
                 <div class="progress-container" id="weekly-progress">
@@ -738,7 +738,7 @@
                         <span>3/7 (43%)</span>
                     </div>
                     <div class="progress-bar">
-                        <div class="progress" style="width: 43%;"></div>
+                        <div class="progress" style="width: 0%;"></div>
                     </div>
                 </div>
             </div>
@@ -747,7 +747,7 @@
             <div class="content-section">
                 <h3>🔮 오늘의 운세</h3>
                 <div class="fortune">
-                    <p><strong>2025년 3월 29일의 숲 운세</strong></p>
+                    <p id="today-fortune-date"><strong>2025년 3월 29일의 숲 운세</strong></p> <!-- ID 추가 -->
                     <p>오늘은 행운의 별이 빛나는 날입니다! 🌟 창의적인 아이디어가 새싹처럼 솟아날 거예요. 블로그에 새로운 주제로 글을 쓰면 많은 방문객들이 찾아올 거에요. 특히 오후에는 집중력이 높아져 글쓰기에 좋은 시간이 될 거예요. 오늘의 행운 아이템은 '푸른 꽃' 입니다!</p>
                 </div>
             </div>
@@ -854,7 +854,10 @@
         createDefaultCharts();
         updateGoalProgressUI();
 
-        // 6. 서버 데이터 시도
+        // 6. 오늘의 운세 날짜 업데이트 (추가된 부분)
+        updateFortuneDate();
+
+        // 7. 서버 데이터 시도
         setTimeout(() => {
             fetchUserStats();
         }, 100);
@@ -922,6 +925,23 @@
         const day = date.getDate().toString().padStart(2, '0');
         return `${year}년 ${month}월 ${day}일`;
     }
+
+    // ========== 오늘의 운세 날짜 업데이트 함수 (추가된 함수) ==========
+    function updateFortuneDate() {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = (today.getMonth() + 1).toString(); // 월은 0부터 시작하므로 1을 더함
+        const day = today.getDate().toString();
+
+        const fortuneDateElement = document.getElementById('today-fortune-date');
+        if (fortuneDateElement) {
+            fortuneDateElement.innerHTML = `<strong>${year}년 ${month}월 ${day}일의 숲 운세</strong>`;
+            console.log(`✅ 오늘의 운세 날짜 업데이트 완료: ${year}년 ${month}월 ${day}일`);
+        } else {
+            console.error('❌ 오늘의 운세 날짜 요소를 찾을 수 없음');
+        }
+    }
+
 
     // ========== 이벤트 리스너 설정 ==========
     function setupEventListeners() {
@@ -1413,4 +1433,4 @@
 
 </script>
 </body>
-</html>
+</html>```

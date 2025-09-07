@@ -8,9 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class BlogApplication {
 
 	public static void main(String[] args) {
-		Dotenv dotenv = Dotenv.load();
+		//Dotenv dotenv = Dotenv.load();
 		// .env 파일의 변수를 시스템 속성으로 설정
-		System.setProperty("GEMINI_API_KEY", dotenv.get("GEMINI_API_KEY"));
+		//System.setProperty("GEMINI_API_KEY", dotenv.get("GEMINI_API_KEY"));
 		SpringApplication.run(BlogApplication.class, args);
 	}
 

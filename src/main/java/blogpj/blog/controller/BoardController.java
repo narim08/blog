@@ -10,6 +10,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import blogpj.blog.dto.UserPostRankDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -100,5 +101,11 @@ public class BoardController {
     @GetMapping("/{id}/like/count")
     public ResponseEntity<Long> getLikeCount(@PathVariable Long id) {
         return ResponseEntity.ok(boardService.getLikeCount(id));
+    }
+
+    @GetMapping("/ranks")
+    public ResponseEntity<List<UserPostRankDTO>> getUserPostRanks() {
+        List<UserPostRankDTO> ranks = boardService.getUserPostRanks();
+        return ResponseEntity.ok(ranks);
     }
 }

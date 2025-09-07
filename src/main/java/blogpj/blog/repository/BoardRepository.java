@@ -4,6 +4,7 @@ import blogpj.blog.domain.Board;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query; // 추가
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,4 +19,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     int countByUserUsernameAndCreateTimeAfter(String username, LocalDateTime date);
 
     Page<Board> findByTag(String tag, Pageable pageable);
+    @Query("SELECT b.user.username, COUNT(b) as postCount FROM Board b GROUP BY b.user.username ORDER BY postCount DESC")
+    List<Object[]> findUserPostCounts();
 }

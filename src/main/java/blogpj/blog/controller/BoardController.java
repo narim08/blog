@@ -10,6 +10,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import blogpj.blog.dto.UserPostRankDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -34,16 +35,27 @@ public class BoardController {
     /** Read: 게시글 조회 */
     //게시글 전체 목록 조회
     @GetMapping
-    public ResponseEntity<Page<BoardResponseDTO>> getAllBoards(@PageableDefault(size = 5, sort = "createTime") Pageable pageable) {
-        Page<BoardResponseDTO> boards = boardService.getAllBoards(pageable);
+    public ResponseEntity<Page<BoardResponseDTO>> getAllBoards(
+            @PageableDefault(size = 5, sort = "createTime") Pageable pageable,
+            @RequestHeader(value = "Username", required = false) String username) {
 
+        if (username == null || username.isEmpty()) {
+            // 로그인 안된 경우(또는 호출한 곳에 Username 헤더 없을 때) 기존 기능 호출
+            Page<BoardResponseDTO> boards = boardService.getAllBoards(pageable);
+            return ResponseEntity.ok(boards);
+        }
+
+        // 로그인 된 경우 좋아요 상태 포함 기능 호출
+        Page<BoardResponseDTO> boards = boardService.getAllBoards(pageable, username);
         return ResponseEntity.ok(boards);
     }
 
+
     //게시글 상세 조회
     @GetMapping("/{id}")
-    public ResponseEntity<BoardResponseDTO> getBoardById(@PathVariable Long id) {
-        BoardResponseDTO board = boardService.getBoardById(id);
+    public ResponseEntity<BoardResponseDTO> getBoardById(@PathVariable Long id,
+                                                         @RequestHeader("Username") String username) {
+        BoardResponseDTO board = boardService.getBoardById(id, username);
 
         return ResponseEntity.ok(board);
     }
@@ -89,5 +101,11 @@ public class BoardController {
     @GetMapping("/{id}/like/count")
     public ResponseEntity<Long> getLikeCount(@PathVariable Long id) {
         return ResponseEntity.ok(boardService.getLikeCount(id));
+    }
+
+    @GetMapping("/ranks")
+    public ResponseEntity<List<UserPostRankDTO>> getUserPostRanks() {
+        List<UserPostRankDTO> ranks = boardService.getUserPostRanks();
+        return ResponseEntity.ok(ranks);
     }
 }

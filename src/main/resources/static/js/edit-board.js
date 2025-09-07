@@ -18,7 +18,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fetch board details to pre-fill the form
     async function fetchBoardDetails() {
         try {
-            const response = await fetch(`/api/board/${boardId}`);
+            const response = await fetch(`/api/board/${boardId}`, {
+                headers: {
+                                'Content-Type': 'application/json',
+                                'Username': username
+                            }
+            });
             const board = await response.json();
 
             // Verify the current user is the board owner

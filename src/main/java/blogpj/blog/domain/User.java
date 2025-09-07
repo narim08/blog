@@ -38,6 +38,18 @@ public class User {
     @Column(nullable = false)
     private LocalDateTime updateTime;
 
+    @Column(name = "monthly_goal", nullable = false, columnDefinition = "INT DEFAULT 30")
+    private Integer monthlyGoal = 30;
+
+    @Column(name = "weekly_goal", nullable = false, columnDefinition = "INT DEFAULT 7")
+    private Integer weeklyGoal = 7;
+
+    @Column(name = "join_date")
+    private LocalDateTime joinDate;
+
+    @Column(name = "profile_image_path")
+    private String profileImagePath;
+
     // One-to-Many relationship with Board
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Board> boards = new ArrayList<>();

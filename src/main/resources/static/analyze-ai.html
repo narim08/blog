@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>코드 분석기</title>
+    <link rel="stylesheet" href="/css/analyze-ai.css">
+</head>
+<body>
+
+<div class="container">
+    <!-- 말풍선 영역 -->
+    <div class="dialogue-container">
+        <div class="character-name" id="character-name">마스터</div>
+        <div class="dialogue-text" id="dialogue">
+            <div id="balloon-box" class="balloon">
+                <div class="question-bubble" id="questionBox">검사하고 싶은 코드를 입력해주세요!</div>
+
+                <button id="nextButton" onclick="handleNext()">다음</button>
+                <div class="btn-group" style="display:none;">
+                    <button onclick="goHome()">처음으로</button>
+                    <button onclick="prepareWritePost(document.getElementById('codeOutput').value)">글 작성하기</button>
+                </div>
+            </div>
+        </div>
+        <div class="dialogue-bar"></div>
+    </div>
+    <!-- 분석 전 화면 -->
+    <div id="inputSection">
+        <label for="codeInput"></label>
+        <textarea id="codeInput" placeholder="여기에 코드를 입력하세요..."></textarea>
+    </div>
+
+    <!-- 분석 후 화면 -->
+    <div id="outputSection" style="display:none;">
+        <label for="codeOutput"></label>
+        <textarea id="codeOutput" readonly placeholder="여기에 개선된 코드가 출력됩니다."></textarea>
+    </div>
+
+</div>
+
+<script src="/js/analyze-ai.js"></script>
+</body>
+</html>

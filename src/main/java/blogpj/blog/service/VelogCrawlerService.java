@@ -37,10 +37,13 @@ public class VelogCrawlerService {
         WebDriverManager.chromedriver().setup();
 
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless=new");
+        /*options.addArguments("--headless=new");
         //options.addArguments("--disable-gpu");
         options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-dev-shm-usage");*/
+
+        options.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
+        options.setBinary(System.getenv("CHROME_BIN"));
 
         WebDriver driver = new ChromeDriver(options);
         List<VelogPost> posts = new ArrayList<>();

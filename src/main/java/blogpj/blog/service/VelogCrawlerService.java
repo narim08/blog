@@ -33,17 +33,17 @@ public class VelogCrawlerService {
 
     public List<VelogPost> getTopPosts() {
 
-        // WebDriverManager가 자동으로 크롬드라이버 설치/경로 설정
-        WebDriverManager.chromedriver().setup();
+        /* WebDriverManager가 자동으로 크롬드라이버 설치/경로 설정
+        WebDriverManager.chromedriver().setup();*/
+
+        // Dockerfile에서 설치한 Chromedriver 경로 직접 지정
+        System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
 
         ChromeOptions options = new ChromeOptions();
-        /*options.addArguments("--headless=new");
-        //options.addArguments("--disable-gpu");
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");*/
-
-        options.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
-        options.setBinary(System.getenv("CHROME_BIN"));
+        options.addArguments("--headless");             // 헤드리스 모드
+        options.addArguments("--no-sandbox");           // 샌드박스 비활성화
+        options.addArguments("--disable-dev-shm-usage"); // /dev/shm 사용 문제 방지
+        options.setBinary("/usr/bin/chromium");         // Chromium 경로 지정
 
         WebDriver driver = new ChromeDriver(options);
         List<VelogPost> posts = new ArrayList<>();

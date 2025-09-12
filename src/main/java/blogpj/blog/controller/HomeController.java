@@ -2,6 +2,7 @@ package blogpj.blog.controller;
 
 import blogpj.blog.service.VelogCrawlerService;
 import blogpj.blog.service.VelogCrawlerService.VelogPost;
+import blogpj.blog.service.VelogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,12 +14,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HomeController {
 
-    private final VelogCrawlerService velogCrawlerService;
+    //private final VelogCrawlerService velogCrawlerService;
+    private final VelogService velogService; //정적 크롤링
 
     @GetMapping("/home")
     public String home(Model model) {
-        List<VelogPost> posts = velogCrawlerService.getTopPosts();
+
+       /* List<VelogPost> posts = velogCrawlerService.getTopPosts();
+        model.addAttribute("velogPosts", posts);*/
+
+        List<VelogService.VelogPost> posts = velogService.getTopPosts();
         model.addAttribute("velogPosts", posts);
+
         return "index";  // src/main/resources/templates/index.html
     }
 }

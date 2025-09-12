@@ -34,7 +34,7 @@ dependencies {
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
 
 	// 크롬 드라이버 자동 다운로드 (서버 배포 시 동적 필요)
-	//implementation 'io.github.bonigarcia:webdrivermanager:5.9.2'
+	implementation 'io.github.bonigarcia:webdrivermanager:5.9.2'
 
 	implementation 'io.github.cdimascio:java-dotenv:5.2.2'
 	compileOnly 'org.projectlombok:lombok'
@@ -45,11 +45,9 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-	//implementation 'org.seleniumhq.selenium:selenium-java:4.21.0'
-	// Selenium 및 Chrome DevTools Protocol
-	implementation 'org.seleniumhq.selenium:selenium-java:4.25.0'
-	implementation 'org.seleniumhq.selenium:selenium-chrome-driver:4.25.0'
-	implementation 'org.seleniumhq.selenium:selenium-devtools-v114:4.25.0'  // Chrome 114용 CDP
+	implementation 'org.seleniumhq.selenium:selenium-java:4.15.0'
+	implementation 'org.seleniumhq.selenium:selenium-chrome-driver:4.15.0'
+	implementation 'org.seleniumhq.selenium:selenium-support:4.15.0'
 }
 
 tasks.named('test') {

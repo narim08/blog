@@ -11,12 +11,16 @@ COPY settings.gradle .
 COPY gradle gradle
 COPY src src
 
-# 기본 패키지 설치
+# Chrome 저장소 추가 및 안정적인 Chrome 설치
 RUN apt-get update && apt-get install -y \
     wget \
     gnupg \
     unzip \
     curl \
+    && wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
+    && apt-get update && apt-get install -y \
+    google-chrome-stable \
     fonts-liberation \
     libnss3 \
     libxss1 \
@@ -26,15 +30,12 @@ RUN apt-get update && apt-get install -y \
     libgbm-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Chrome 114 버전 직접 설치 (Selenium 4.25.0과 호환되는 안정적인 버전)
-RUN wget -q https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.90-1_amd64.deb \
-    && dpkg -i google-chrome-stable_114.0.5735.90-1_amd64.deb || apt-get install -f -y \
-    && rm google-chrome-stable_114.0.5735.90-1_amd64.deb
-
-# ChromeDriver 114 버전 설치
-RUN wget -q https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip \
-    && unzip chromedriver_linux64.zip -d /usr/local/bin/ \
-    && rm chromedriver_linux64.zip \
+# ChromeDriver 자동 다운로드 및 설치
+RUN CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d'.' -f1-3) \
+    && CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION}") \
+    && wget -O /tmp/chromedriver.zip "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip" \
+    && unzip /tmp/chromedriver.zip -d /usr/local/bin/ \
+    && rm /tmp/chromedriver.zip \
     && chmod +x /usr/local/bin/chromedriver
 
 # Gradle 빌드

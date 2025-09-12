@@ -3,12 +3,12 @@ FROM openjdk:17-jdk-bullseye
 WORKDIR /app
 
 # 프로젝트 복사
-COPY blog/gradlew .
-COPY blog/gradlew.bat .
-COPY blog/build.gradle .
-COPY blog/settings.gradle .
-COPY blog/gradle gradle
-COPY blog/src src
+COPY gradlew .
+COPY gradlew.bat .
+COPY build.gradle .
+COPY settings.gradle .
+COPY gradle gradle
+COPY src src
 
 # 필수 패키지 설치
 RUN apt-get update && apt-get install -y \

@@ -29,11 +29,8 @@ RUN chmod +x ./gradlew
 RUN ./gradlew build -x test
 
 # 환경 변수 설정 (Chromium 위치)
-ENV CHROME_BIN=/usr/bin/chromium-browser
+ENV CHROME_BIN=/usr/bin/chromium
 ENV CHROME_DRIVER=/usr/bin/chromedriver
-
-# 5. 빌드된 jar 파일 복사
-COPY build/libs/*.jar app.jar
 
 # 컨테이너 실행
 CMD ["java", "-jar", "build/libs/blog-0.0.1-SNAPSHOT.jar"]

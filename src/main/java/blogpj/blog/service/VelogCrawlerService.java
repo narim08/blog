@@ -89,10 +89,7 @@ public class VelogCrawlerService {
         if (chromeDriver != null) {
             System.setProperty("webdriver.chrome.driver", chromeDriver);
         } else {
-            // 기본 경로들 시도
-            if (System.getProperty("os.name").toLowerCase().contains("linux")) {
-                System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
-            }
+            System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
         }
 
         ChromeOptions options = new ChromeOptions();
@@ -108,22 +105,28 @@ public class VelogCrawlerService {
         options.addArguments("--window-size=1920,1080");
         options.addArguments("--disable-extensions");
         options.addArguments("--disable-plugins");
-        options.addArguments("--disable-images");
-        options.addArguments("--disable-javascript");
-        options.addArguments("--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
+
+        // 이미지와 JavaScript는 활성화 (Velog는 React 기반이므로 필요)
+        // options.addArguments("--disable-images"); // 제거
+        // options.addArguments("--disable-javascript"); // 제거
+
+        options.addArguments("--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36");
 
         // Chrome 바이너리 경로 설정
         if (chromeBin != null) {
             options.setBinary(chromeBin);
         } else {
-            // 기본 경로들 시도
             options.setBinary("/usr/bin/google-chrome");
         }
 
-        // CDP 버전 호환성 문제 해결을 위한 추가 설정
+        // CDP 관련 로깅 비활성화
         options.addArguments("--disable-logging");
         options.addArguments("--log-level=3");
         options.addArguments("--silent");
+
+        // 성능 최적화
+        options.addArguments("--memory-pressure-off");
+        options.addArguments("--max_old_space_size=4096");
 
         log.info("ChromeOptions 설정 완료");
         log.info("Chrome Binary: {}", chromeBin != null ? chromeBin : "/usr/bin/google-chrome");

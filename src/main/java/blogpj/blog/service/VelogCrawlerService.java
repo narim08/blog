@@ -1,6 +1,7 @@
 package blogpj.blog.service;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,14 +11,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-
-
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class VelogCrawlerService {
 
     @Getter
@@ -32,48 +31,104 @@ public class VelogCrawlerService {
     }
 
     public List<VelogPost> getTopPosts() {
-
-        /* WebDriverManager가 자동으로 크롬드라이버 설치/경로 설정
-        WebDriverManager.chromedriver().setup();*/
-
-        // Dockerfile에서 설치한 Chromedriver 경로 직접 지정
-        System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
-
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");             // 헤드리스 모드
-        options.addArguments("--no-sandbox");           // 샌드박스 비활성화
-        options.addArguments("--disable-dev-shm-usage"); // /dev/shm 사용 문제 방지
-        options.setBinary("/usr/bin/chromium");         // Chromium 경로 지정
-
-        WebDriver driver = new ChromeDriver(options);
+        WebDriver driver = null;
         List<VelogPost> posts = new ArrayList<>();
 
         try {
+            driver = createWebDriver();
+
+            log.info("Velog 크롤링 시작");
             driver.get("https://velog.io/trending");
 
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[class*='PostCard_styleLink']")));
 
-            int count = Math.min(5, driver.findElements(By.cssSelector("li.PostCard_block__FTMsy")).size());
+            List<WebElement> postElements = driver.findElements(By.cssSelector("li.PostCard_block__FTMsy"));
+            int count = Math.min(5, postElements.size());
+
+            log.info("발견된 포스트 수: {}, 크롤링할 포스트 수: {}", postElements.size(), count);
 
             for (int i = 0; i < count; i++) {
-                WebElement item = driver.findElements(By.cssSelector("li.PostCard_block__FTMsy")).get(i);
+                try {
+                    WebElement item = postElements.get(i);
+                    WebElement linkEl = item.findElement(By.cssSelector("a[class*='PostCard_styleLink']"));
+                    String link = linkEl.getAttribute("href");
 
-                WebElement linkEl = item.findElement(By.cssSelector("a[class*='PostCard_styleLink']"));
-                String link = linkEl.getAttribute("href");
+                    WebElement imgEl = linkEl.findElement(By.tagName("img"));
+                    String title = imgEl.getAttribute("alt").trim().replace(" post", "");
 
-                WebElement imgEl = linkEl.findElement(By.tagName("img"));
-                String title = imgEl.getAttribute("alt").trim().replace(" post", "");
+                    posts.add(new VelogPost(title, link));
+                    log.info("크롤링 완료 {}/{}: {}", i + 1, count, title);
 
-                posts.add(new VelogPost(title, link));
+                } catch (Exception e) {
+                    log.warn("포스트 {} 크롤링 중 오류: {}", i, e.getMessage());
+                }
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Velog 크롤링 중 오류 발생", e);
         } finally {
-            driver.quit();
+            if (driver != null) {
+                try {
+                    driver.quit();
+                    log.info("WebDriver 종료 완료");
+                } catch (Exception e) {
+                    log.warn("WebDriver 종료 중 오류", e);
+                }
+            }
         }
 
         return posts;
+    }
+
+    private WebDriver createWebDriver() {
+        // Docker 환경에서 Chrome/ChromeDriver 경로 설정
+        String chromeBin = System.getenv("CHROME_BIN");
+        String chromeDriver = System.getenv("CHROME_DRIVER");
+
+        if (chromeDriver != null) {
+            System.setProperty("webdriver.chrome.driver", chromeDriver);
+        } else {
+            // 기본 경로들 시도
+            if (System.getProperty("os.name").toLowerCase().contains("linux")) {
+                System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
+            }
+        }
+
+        ChromeOptions options = new ChromeOptions();
+
+        // Docker 환경에서 필수 옵션들
+        options.addArguments("--headless");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--disable-web-security");
+        options.addArguments("--disable-features=VizDisplayCompositor");
+        options.addArguments("--remote-debugging-port=9222");
+        options.addArguments("--window-size=1920,1080");
+        options.addArguments("--disable-extensions");
+        options.addArguments("--disable-plugins");
+        options.addArguments("--disable-images");
+        options.addArguments("--disable-javascript");
+        options.addArguments("--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
+
+        // Chrome 바이너리 경로 설정
+        if (chromeBin != null) {
+            options.setBinary(chromeBin);
+        } else {
+            // 기본 경로들 시도
+            options.setBinary("/usr/bin/google-chrome");
+        }
+
+        // CDP 버전 호환성 문제 해결을 위한 추가 설정
+        options.addArguments("--disable-logging");
+        options.addArguments("--log-level=3");
+        options.addArguments("--silent");
+
+        log.info("ChromeOptions 설정 완료");
+        log.info("Chrome Binary: {}", chromeBin != null ? chromeBin : "/usr/bin/google-chrome");
+        log.info("ChromeDriver: {}", chromeDriver != null ? chromeDriver : "/usr/local/bin/chromedriver");
+
+        return new ChromeDriver(options);
     }
 }

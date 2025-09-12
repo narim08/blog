@@ -45,7 +45,11 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-	implementation 'org.seleniumhq.selenium:selenium-java:4.21.0'
+	//implementation 'org.seleniumhq.selenium:selenium-java:4.21.0'
+	// Selenium WebDriver
+	implementation 'org.seleniumhq.selenium:selenium-java:4.15.0'
+	implementation 'org.seleniumhq.selenium:selenium-chrome-driver:4.15.0'
+	implementation 'org.seleniumhq.selenium:selenium-support:4.15.0'
 }
 
 tasks.named('test') {

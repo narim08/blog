@@ -13,11 +13,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import blogpj.blog.dto.UserPostRankDTO; // 추가
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.ArrayList; // 추가
 
 @Service
 @Transactional(readOnly = true)
@@ -194,6 +196,18 @@ public class BoardService {
 
 
         return responseDTO;
+    }
+
+    public List<UserPostRankDTO> getUserPostRanks() {
+        List<Object[]> userPostCounts = boardRepository.findUserPostCounts();
+        List<UserPostRankDTO> userPostRanks = new ArrayList<>();
+        int rank = 1;
+        for (Object[] userPostCount : userPostCounts) {
+            String username = (String) userPostCount[0];
+            long postCount = (long) userPostCount[1];
+            userPostRanks.add(new UserPostRankDTO(rank++, username, postCount));
+        }
+        return userPostRanks;
     }
     private BoardResponseDTO convertToResponseDTO(Board board, long likeCount, boolean liked) {
         BoardResponseDTO dto = convertToResponseDTO(board);

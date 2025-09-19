@@ -15,5 +15,8 @@ COPY src src
 RUN chmod +x ./gradlew
 RUN ./gradlew build -x test
 
+# 이미지 업로드 디렉토리 생성
+RUN mkdir -p /app/uploads
+
 # 컨테이너 실행
 CMD ["java", "-jar", "build/libs/blog-0.0.1-SNAPSHOT.jar"]

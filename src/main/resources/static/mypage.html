@@ -859,7 +859,7 @@
         container.innerHTML = `<div class="loading">순위를 불러오는 중... 🏆</div>`;
 
         try {
-            const response = await fetch('http://localhost:8080/api/board/ranks');
+            const response = await fetch('/api/board/ranks');
             if (!response.ok) throw new Error(`API 호출 실패: ${response.status}`);
             const ranks = await response.json();
             console.log('✅ 사용자 순위 정보 수신:', ranks);

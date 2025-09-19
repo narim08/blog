@@ -14,7 +14,8 @@ import java.io.IOException;
 @RequestMapping("/api/profile")
 public class ProfileImageController {
 
-    private final String uploadDir = "C:/profile-images";
+    //private final String uploadDir = "C:/profile-images";
+    private final String uploadDir = "./uploads/profile-images";
 
     private final UserRepository userRepository;
 

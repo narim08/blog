@@ -10,11 +10,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // 윈도우 파일 경로에 맞게 매핑
-        /*registry.addResourceHandler("/profile-images/**")
-                .addResourceLocations("file:///C:/profile-images/");*/
-
-        //서버 배포용 경로
-        registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:/app/uploads/");
+        registry.addResourceHandler("/profile-images/**")
+                .addResourceLocations("file:///C:/profile-images/");
     }
 }

@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fetchBoardsForTagFilter(clickedText);
         });
     });
-ㄹ
+
     /*
     // Add a logout button
     const logoutBtn = document.createElement('button');

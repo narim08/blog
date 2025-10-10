@@ -235,3 +235,92 @@ label {
 .button-home {
   background-color: #f6c6ea;
 }
+
+@media (max-width: 768px) {
+    .dialogue-container {
+        width: 90%;
+        min-height: 150px;
+        bottom: 10px;
+    }
+
+    .dialogue-text { font-size: 0.8rem; }
+    .dialogue-bar{
+        height:89%;
+        top:43px;
+    }
+    .balloon {font-size: 0.8rem;}
+    .character-name {
+        font-size: 0.6rem;
+        left: 18%;
+    }
+
+    textarea {
+        width:50%;
+        height:270px;
+        font-size:10px;
+        margin-right:300px;
+    }
+
+    #nextButton {
+        right:155px;
+        font-size: 0.8rem;
+        padding: 4px 8px;
+    }
+    .btn-group button {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+    }
+    .btn-group {
+        right: 120px;
+    }
+    .result-container textarea {
+        height :300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dialogue-container {
+        width: 120%;
+        min-height: 150px;
+        bottom: 10px;
+    }
+
+    .dialogue-text { font-size: 0.8rem; }
+    .dialogue-bar{
+        height:89%;
+        top:43px;
+    }
+    .balloon {font-size: 0.8rem;}
+    .character-name {
+        font-size: 0.6rem;
+        left: 18%;
+    }
+
+    textarea {
+        width:50%;
+        height:270px;
+        font-size:10px;
+        margin-right:250px;
+    }
+
+    #nextButton {
+        right:150px;
+        font-size: 0.8rem;
+        padding: 4px 8px;
+    }
+    .btn-group button {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+    }
+    .btn-group {
+        right: 137px;
+    }
+    .result-container textarea {
+        height :270px;
+    }
+
+    .custom-button{
+        font-size: 11px;
+        padding:3px;
+    }
+}

@@ -145,3 +145,80 @@ input[type="text"], textarea {
 .button-home {
   background-color: #f6c6ea;
 }
+
+@media (max-width: 768px) {
+    #balloon-box {
+        font-size: 0.8rem;
+        width: 300px;
+
+    }
+    #navigation-box button {
+        right:280px;
+        font-size: 0.7rem;
+        padding: 4px 6px;
+    }
+
+    #options-box.grid-2 {
+        column-gap: 0px;
+        row-gap: 5px;
+        justify-items: center;
+    }
+
+    #options-box {
+        margin-left:80px;
+    }
+    .option-button {
+        width: 100%;
+        max-width: 100px;
+        height: 50px;
+        font-size: 0.8rem;
+    }
+
+    input[type="text"],textarea {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dialogue-container {
+        width: 135%;
+        min-height: 150px;
+        bottom: 10px;
+    }
+    #balloon-box {
+        font-size: 0.65rem;
+        width: 260px;
+    }
+    #navigation-box button {
+        right:200px;
+        font-size: 0.7rem;
+        padding: 4px 6px;
+    }
+
+    #options-box.grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 3px;
+        row-gap: 5px;
+        justify-items: center;
+    }
+
+    #options-box {
+        margin-left:0px;
+    }
+
+    .option-button {
+        width: 100%;
+        max-width: 100px;
+        height: 50px;
+        font-size: 0.8rem;
+    }
+
+    input[type="text"],textarea {
+        font-size: 10px;
+    }
+
+    .result-container{
+        padding:10px;
+        width:146%;
+    }
+}

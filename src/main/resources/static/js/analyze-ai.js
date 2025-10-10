@@ -71,7 +71,7 @@ function prepareWritePost(text = "") {
         document.body.innerHTML = `
           <div class="result-container">
             <h2>코드 분석</h2>
-            <textarea id="post-content" style="width: 100%; height: 400px; margin-top: 5px;">${text}</textarea>
+            <textarea id="post-content" style="width: 100%; margin-top: 5px;">${text}</textarea>
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
               <div style="color: #777; font-style: italic;">
                 ! TIP: 직접 수정하거나, 자신의 생각을 덧붙여 게시글을 작성하세요.

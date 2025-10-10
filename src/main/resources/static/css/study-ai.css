@@ -280,3 +280,136 @@ body {
 #balloon-box.result-mode {
   white-space: normal;
 }
+
+@media (max-width: 768px) {
+
+    .dialogue-container { width: 95%; min-height: 300px; }
+    .dialogue-text { font-size: 14px; }
+    .dialogue-bar{
+        height:89%;
+        top:43px;
+    }
+
+    .character-name {
+        font-size: 0.7rem;
+        left: 18%;
+    }
+
+    .choices {
+            margin-left:-312px;
+    }
+    .choices button{
+        width:220px;
+        height:60px;
+        font-size:0.68rem;
+        padding:10px;
+        margin:5px 8px;
+        left:50px;
+    }
+
+    #explanationText {
+        width:300px;
+        font-size: 0.68rem;
+        padding-left:40px;
+        margin-bottom: 16px;
+    }
+
+    #resultText {
+        font-size: 0.68rem;
+        justify-content: flex-start;
+        margin-left:150px;
+    }
+
+    .question-bubble{
+        font-size:0.68rem;
+        width: 300px;
+        padding-top:10px;
+    }
+
+    #nextButton {
+        right:150px;
+        font-size: 0.8rem;
+        padding: 4px 8px;
+    }
+
+    .result-buttons {
+        padding: 6px 9px;
+        font-size: 9px;
+        right: 70px;
+        bottom: 15px;
+    }
+
+    .result-button {
+        padding: 7px 10px;
+        font-size: 9px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dialogue-container {
+        width: 120%;
+        min-height: 150px;
+        bottom: 10px;
+    }
+
+    .dialogue-bar{
+        height:89%;
+        top:43px;
+    }
+
+    #resultText {
+        font-size: 0.7rem;
+        justify-content: flex-start;
+        margin-left:87px;
+    }
+    .dialogue-text { font-size: 0.8rem; }
+
+    #explanationText {
+        margin-top:-10px;
+        width:216px;
+        font-size: 0.52rem;
+        padding-left:21px;
+        margin-bottom: 23px;
+    }
+
+    .question-bubble{
+        font-size:0.7rem;
+        width: 215px;
+        padding-top:10px;
+    }
+
+    .character-name {
+        font-size: 0.6rem;
+        left: 17%;
+    }
+
+    .choices {
+        margin-left:-176px;
+    }
+    .choices button{
+        width:220px;
+        height:60px;
+        font-size:0.6rem;
+        padding:10px;
+        margin:5px 8px;
+        left:50px;
+    }
+
+    #nextButton {
+        right:150px;
+        font-size: 0.8rem;
+        padding: 4px 8px;
+    }
+
+    .result-buttons {
+        padding: 6px 9px;
+        font-size: 10px;
+        right: 80px;
+        bottom: 20px;
+    }
+
+    .result-button {
+        padding: 7px 10px;
+        font-size: 8px;
+    }
+}
